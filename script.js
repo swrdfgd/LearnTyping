@@ -39,10 +39,10 @@ function generateText(level) {
 	let pilih1; let pilih2; let pilih3; let pilih4;
 	while (Math.random() < 1/2){
 		introductionIteration = 5;
-		pilih1 = levelData[Math.floor(Math.random()*5)+1].cha;
-		pilih2 = levelData[Math.floor(Math.random()*5)+1].cha;
-		pilih3 = levelData[Math.floor(Math.random()*5)+1].cha;
-		pilih4 = levelData[Math.floor(Math.random()*5)+1].cha;
+		pilih1 = levelData[Math.floor(Math.random()*level)+1].cha;
+		pilih2 = levelData[Math.floor(Math.random()*level)+1].cha;
+		pilih3 = levelData[Math.floor(Math.random()*level)+1].cha;
+		pilih4 = levelData[Math.floor(Math.random()*level)+1].cha;
 		levelData[0].cha = [[pilih1[Math.floor(Math.random()*pilih1.length)][Math.floor(Math.random()*2)],pilih2[Math.floor(Math.random()*pilih2.length)][Math.floor(Math.random()*2)]],[pilih3[Math.floor(Math.random()*pilih3.length)][Math.floor(Math.random()*2)],pilih4[Math.floor(Math.random()*pilih4.length)][Math.floor(Math.random()*2)]]];
 		for (let i = 0; i < introductionIteration; i++) {
 			generatedText += introduceCharacter(0) + ' ';
@@ -332,6 +332,7 @@ function isWordValid(word, allowedLetters) {
 
 function wordsGen(charLists){
 	let pilihanKata = englishWordsFreq[Math.floor(Math.random()*englishWordsFreq.length)];
+	pilihanKata = pilihanKata.toLowerCase();
 	if (isWordValid(pilihanKata,charLists)){return pilihanKata};
 	return remindCharacter(charLists);
 }
