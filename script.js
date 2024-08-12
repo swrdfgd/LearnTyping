@@ -65,6 +65,12 @@ function generateText(level) {
 			generatedText += remindCharacter(charLists) + ' ';
 		}
 	}
+	
+	introductionIteration = 10;
+	while (Math.random() < 1/2){introductionIteration++}
+	for (let i = 0; i < introductionIteration; i++) {
+		generatedText += wordsGen(charLists) + ' ';
+	}
 
     // Ensure no trailing space at the end
     generatedText = generatedText.trim();
@@ -308,7 +314,26 @@ function remindCharacter(charLists){
 	return hasil
 }
 
+
+function isWordValid(word, allowedLetters) {
+    // Ubah semua huruf pada kata menjadi huruf kecil
+    word = word.toLowerCase();
+    
+    // Iterasi melalui setiap huruf dalam kata
+    for (let i = 0; i < word.length; i++) {
+        // Cek apakah huruf tidak ada di array allowedLetters
+        if (!allowedLetters.includes(word[i])) {
+            return false; // Jika tidak ada, kembalikan false
+        }
+    }
+    
+    return true; // Jika semua huruf ada di array, kembalikan true
+}
+
 function wordsGen(charLists){
+	let pilihanKata = englishWordsFreq[Math.floor(Math.random()*englishWordsFreq.length)];
+	if (isWordValid(pilihanKata,charLists)){return pilihanKata};
+	return remindCharacter(charLists);
 }
 
 const levelData = {
@@ -318,4 +343,12 @@ const levelData = {
     3: {cha:[['g','h']], comment:''},
     4: {cha:[['r','u']], comment:''},
     5: {cha:[['e','i']], comment:''},
+	6: {cha:[['v','m']], comment:''},
+	7: {cha:[['c',',']], comment:''},
+	8: {cha:[['t','y']], comment:''},
+	9: {cha:[['b','n']], comment:''},
+	10: {cha:[['w','o']], comment:''},
+	11: {cha:[['x','.']], comment:''},
+	12: {cha:[['q','p']], comment:''},
+	13: {cha:[['z','/']], comment:''},
 };
