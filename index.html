@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Typing Test</h1>
+        <label for="level">Choose Level:</label>
+        <select id="level">
+            <option value="1">Level 1 (a, s, l, ;)</option>
+            <option value="2">Level 2 (d, f, j, k)</option>
+            <option value="3">Level 3 (g, h)</option>
+            <option value="4">Level 4 (r, u)</option>
+            <option value="5">Level 5 (e, i)</option>
+        </select>
+
+        <button id="startButton" onclick="startTest()">Start</button>
+
+        <div id="textBox" class="text-box" tabindex="0" onclick="activateBox()"></div>
+
+        <div id="results">
+            <p>WPM: <span id="wpm">0</span></p>
+            <p>Accuracy: <span id="accuracy">0%</span></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+body {
+    font-family: 'Roboto Mono', monospace;
+    background-color: #f7f7f7;
+    color: #333;
+    padding: 20px;
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 30px;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    font-size: 18px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 30px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.text-box {
+    position: relative;
+    font-size: 24px;
+    border: 4px solid #ddd;
+    padding: 30px;
+    min-height: 150px;
+    line-height: 1.6em;
+    color: #888; /* Darker gray text */
+    background-color: #ffffcc; /* Light yellow background */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    outline: none;
+    font-family: 'Roboto Mono', monospace;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="pink"/></svg>'), auto;
+}
+
+.text-box:focus {
+    border-color: #007bff;
+    border-width: 5px; /* Thicker border when focused */
+}
+
+.cursor-highlight {
+    background-color: pink;
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+#results {
+    text-align: center;
+}
+
+#results p {
+    font-size: 24px;
+    margin: 15px 0;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .text-box {
+        font-size: 14px;
+    }
+}
