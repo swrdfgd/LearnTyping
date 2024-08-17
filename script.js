@@ -56,7 +56,6 @@ function generateText(level) {
 		}
 	}
 	
-	charLists.push(' ');
 	
 	while (Math.random() < 1/2){
 		introductionIteration = 5;
@@ -327,6 +326,7 @@ function remindCharacter(charLists){
 
 
 function isWordValid(word, allowedLetters) {
+	allowedLetters.push(' ');
     // Ubah semua huruf pada kata menjadi huruf kecil
     word = word.toLowerCase();
     
