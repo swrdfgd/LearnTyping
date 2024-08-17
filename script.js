@@ -342,7 +342,13 @@ function isWordValid(word, allowedLetters) {
 }
 
 function wordsGen(charLists){
-	let pilihanKata = englishWordsFreq[Math.floor(Math.random()*englishWordsFreq.length)];
+	let pilihanKata = '';
+	if (document.getElementById('language').value == 'en'){
+		pilihanKata = englishWordsFreq[Math.floor(Math.random()*englishWordsFreq.length)];
+	}
+	else {
+		pilihanKata = kataIndo[Math.floor(Math.random()*kataIndo.length)];
+	}
 	pilihanKata = pilihanKata.toLowerCase();
 	if (isWordValid(pilihanKata,charLists)){return pilihanKata};
 	return remindCharacter(charLists);
@@ -387,4 +393,4 @@ function instructionUpdate(){
 	document.getElementById('instructions').innerHTML = levelData[document.getElementById('level').value].comment[bahasa];
 }
 
-instructionUpdate();
+instructionUpdate()
