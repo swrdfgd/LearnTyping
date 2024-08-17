@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Test</title>
+    <title>Learn Typing</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Typing Test</h1>
-        <label for="level">Choose Level:</label>
-        <select id="level">
+        <h1>Learn Typing</h1>
+        <label id="selectLanguage" for="language">Select Language:</label>
+        <select onclick="changeLang()" id="language">
+            <option value="en">English</option>
+            <option value="id">Bahasa Indonesia</option>
+        </select>
+        <label id="chooseLevel" for="level">Choose Level:</label>
+        <select onclick="instructionUpdate()" id="level">
             <option value="1">Level 1 (a, s, l, ;)</option>
             <option value="2">Level 2 (d, f, j, k)</option>
             <option value="3">Level 3 (g, h)</option>
@@ -25,14 +30,14 @@
             <option value="12">Level 12 (q, p)</option>
             <option value="13">Level 13 (z, /)</option>
         </select>
-
+        <p id="instructions">Please select a level and press "Start" to begin the test.</p>
         <button id="startButton" onclick="startTest()">Start</button>
 
         <div id="textBox" class="text-box" tabindex="0" onclick="activateBox()"></div>
 
         <div id="results">
             <p>WPM: <span id="wpm">0</span></p>
-            <p>Accuracy: <span id="accuracy">0%</span></p>
+            <p><span id="teksAkurasi">Accuracy</span>: <span id="accuracy">0%</span></p>
         </div>
     </div>
 	<script src="englishWordsFreqAsc.js"></script>

@@ -20,8 +20,6 @@ function generateText(level) {
     generatedText = "";
     typedText = "";
 
-    let spaceProbability = 0.1; // Probability of adding a space (10%)
-
 	let introductionIteration = 10;
 	while (Math.random() < 1/2){introductionIteration++}
     for (let i = 0; i < introductionIteration; i++) {
@@ -58,6 +56,8 @@ function generateText(level) {
 		}
 	}
 	
+	charLists.push(' ');
+	
 	while (Math.random() < 1/2){
 		introductionIteration = 5;
 		while (Math.random() < 1/2){introductionIteration++}
@@ -93,7 +93,12 @@ function updateTextBox() {
             if (typedText[i] === generatedText[i]) {
                 displayText += `<span style="color:black;">${generatedText[i]}</span>`;
             } else {
-                displayText += `<span style="color:red;">${generatedText[i]}</span>`;
+				if (typedText[i] == ' '){
+                displayText += `<span style="color:red">■</span>`;
+				}
+				else{
+			    displayText += `<span style="color:red;">${typedText[i]}</span>`;
+				}
             }
         } else {
             displayText += `<span style="color:#888;">${generatedText[i]}</span>`;
@@ -141,7 +146,13 @@ function endTest() {
 
     const endTime = new Date().getTime();
     calculateResults(endTime);
-    document.getElementById('textBox').innerHTML += "<p style='color:green;'>Test Completed!</p>";
+	
+	if (document.getElementById('language').value == 'en'){
+		document.getElementById('textBox').innerHTML += "<p style='color:green;'>Practice Completed!</p>";
+	}
+	else {
+		document.getElementById('textBox').innerHTML += "<p style='color:green;'>Latihan Selesai!</p>";
+	}
 }
 
 function calculateResults(endTime) {
@@ -338,18 +349,40 @@ function wordsGen(charLists){
 }
 
 const levelData = {
-	0: {cha: [], comment:''},
-    1: {cha:[['a','s'],['l',';']], comment:''},
-    2: {cha:[['d','f'],['j','k']], comment:''},
-    3: {cha:[['g','h']], comment:''},
-    4: {cha:[['r','u']], comment:''},
-    5: {cha:[['e','i']], comment:''},
-	6: {cha:[['v','m']], comment:''},
-	7: {cha:[['c',',']], comment:''},
-	8: {cha:[['t','y']], comment:''},
-	9: {cha:[['b','n']], comment:''},
-	10: {cha:[['w','o']], comment:''},
-	11: {cha:[['x','.']], comment:''},
-	12: {cha:[['q','p']], comment:''},
-	13: {cha:[['z','/']], comment:''},
+	0: {cha: [], comment:{id: '', en: ''}},
+    1: {cha:[['a','s'],['l',';']], comment:{id: '<b>Letakkan jari-jari ke baris rumah</b><br>Perhatikan bahwa ada tonjolan kecil di huruf f dan j untuk membantu menempatkan jari dengan benar di baris rumah.<br>Letakkan jari kelingking kiri di huruf a, jari manis kiri di huruf s, jari tengah kiri di huruf d, dan jari telunjuk kiri di huruf f.<br>Letakkan jari telunjuk kanan di huruf j, jari tengah kanan di huruf k, jari manis kanan di huruf l, dan jari kelingking kanan di tanda titik koma (;).<br>Gunakan jari kelingking kiri untuk menekan huruf a, jari manis kiri untuk menekan huruf s, jari manis kanan untuk menekan huruf l, dan jari kelingking kanan untuk menekan tanda titik koma (;).<br>Tekan spasi dengan ibu jari/jempol', en: '<b>Place your fingers on the home row</b><br>Note that there are small bumps on the f and j keys to help you position your fingers correctly on the home row.<br>Place your left pinky finger on the letter a, your left ring finger on the letter s, your left middle finger on the letter d, and your left index finger on the letter f.<br>Place your right index finger on the letter j, your right middle finger on the letter k, your right ring finger on the letter l, and your right pinky finger on the semicolon (;).<br>Use your left pinky finger to press the letter a, your left ring finger to press the letter s, your right ring finger to press the letter l, and your right pinky finger to press the semicolon (;).<br>Press the spacebar with your thumb'}},
+	2: {cha:[['d','f'],['j','k']], comment:{id: 'Gunakan jari tengah kiri untuk menekan huruf d<br>Gunakan jari telunjuk kiri untuk menekan huruf f<br>Gunakan jari telunjuk kanan untuk menekan huruf j<br>Gunakan jari tengah kanan untuk menekan huruf k', en:'Use the left middle finger to press the letter d<br>Use the left index finger to press the letter f<br>Use the right index finger to press the letter j<br>Use the right middle finger to press the letter k'}},
+    3: {cha:[['g','h']], comment:{id: 'Gunakan jari telunjuk kiri untuk menekan huruf g<br>Gunakan jari telunjuk kanan untuk menekan huruf h', en:'Use the left index finger to press the letter g<br>Use the right index finger to press the letter h'}},
+    4: {cha:[['r','u']], comment:{id: 'Gunakan jari telunjuk kiri untuk menekan huruf r<br>Gunakan jari telunjuk kanan untuk menekan huruf u', en:'Use the left index finger to press the letter r<br>Use the right index finger to press the letter u'}},
+    5: {cha:[['e','i']], comment:{id: 'Gunakan jari tengah kiri untuk menekan huruf e<br>Gunakan jari tengah kanan untuk menekan huruf i', en:'Use the left middle finger to press the letter e<br>Use the right middle finger to press the letter i'}},
+	6: {cha:[['v','m']], comment:{id: 'Gunakan jari telunjuk kiri untuk menekan huruf v<br>Gunakan jari telunjuk kanan untuk menekan huruf m', en:'Use the left index finger to press the letter v<br>Use the right index finger to press the letter m'}},
+	7: {cha:[['c',',']], comment:{id: 'Gunakan jari tengah kiri untuk menekan huruf c<br>Gunakan jari tengah kanan untuk menekan tanda koma (,)', en:'Use the left middle finger to press the letter c<br>Use the right middle finger to press the comma (,)'}},
+	8: {cha:[['t','y']], comment:{id: 'Gunakan jari telunjuk kiri untuk menekan huruf t<br>Gunakan jari telunjuk kanan untuk menekan huruf y', en:'Use the left index finger to press the letter t<br>Use the right index finger to press the letter y'}},
+	9: {cha:[['b','n']], comment:{id: 'Gunakan jari telunjuk kiri untuk menekan huruf b<br>Gunakan jari telunjuk kanan untuk menekan huruf n', en:'Use the left index finger to press the letter b<br>Use the right index finger to press the letter n'}},
+	10: {cha:[['w','o']], comment:{id: 'Gunakan jari manis kiri untuk menekan huruf w<br>Gunakan jari manis kanan untuk menekan huruf o', en:'Use the left ring finger to press the letter w<br>Use the right ring finger to press the letter o'}},
+	11: {cha:[['x','.']], comment:{id: 'Gunakan jari tengah kiri untuk menekan huruf x<br>Gunakan jari tengah kanan untuk menekan tanda titik (.)', en:'Use the left middle finger to press the letter x<br>Use the right middle finger to press the period (.)'}},
+	12: {cha:[['q','p']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan huruf q<br>Gunakan jari kelingking kanan untuk menekan huruf p', en:'Use the left pinky finger to press the letter q<br>Use the right pinky finger to press the letter p'}},
+	13: {cha:[['z','/']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan huruf z<br>Gunakan jari kelingking kanan untuk menekan tanda garis miring (/)', en:'Use the left pinky finger to press the letter z<br>Use the right pinky finger to press the slash (/)'}},
 };
+
+const textTranslate = [
+	["selectLanguage", "Select Language:", "Pilih Bahasa:"],
+	["chooseLevel", "Choose Level:", "Pilih Level:"],
+	["startButton", "Start", "Mulai"],
+	["teksAkurasi", "Accuracy", "Akurasi"],
+]
+
+function changeLang(){
+	let bahasa = document.getElementById('language').value;
+	if (bahasa == 'en'){bahasa = 1}
+	else {bahasa = 2}
+	for (let i = 0; i < textTranslate.length; i++){
+		document.getElementById(textTranslate[i][0]).innerHTML = textTranslate[i][bahasa];
+	}
+	instructionUpdate();
+}
+
+function instructionUpdate(){
+	let bahasa = document.getElementById('language').value;
+	document.getElementById('instructions').innerHTML = levelData[document.getElementById('level').value].comment[bahasa];
+}
