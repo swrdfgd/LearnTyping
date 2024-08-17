@@ -15,6 +15,9 @@ function startTest() {
     document.getElementById('textBox').addEventListener('click', activateBox);
 }
 
+const daftarHurufKanan = 'yuiophjklnm';
+const daftarHurufKiri = 'qwertasdfgzxcvb'
+const charListsComplete = 'qwertyuiopasdfghjkl;zxcvbnm,./'.split('');
 function generateText(level) {
     const characters = levelData[level];
     generatedText = "";
@@ -23,14 +26,116 @@ function generateText(level) {
 	
 	if (level == "randomWords"){
 		introductionIteration = 30;
-		charLists = 'qwertyuiopasdfghjkl;zxcvbnm,./'.split('');
+		charListsComplete = 'qwertyuiopasdfghjkl;zxcvbnm,./'.split('');
 		while (Math.random() < 1/2){introductionIteration++}
 		for (let i = 0; i < introductionIteration; i++) {
-			generatedText += wordsGen(charLists) + ' ';
+			generatedText += wordsGen(charListsComplete) + ' ';
 		}
 		inisialisasi();
 		return
 	}
+	
+	let kataShift = '';
+	if (level == "leftShift"){
+		introductionIteration = 10;
+		while (Math.random() < 1/2){introductionIteration++}
+		for (let i = 0; i < introductionIteration; i++) {
+			generatedText += introduceShift('left') + ' ';
+		}
+		while (Math.random() < 1/2){
+			introductionIteration = 5;
+			while (Math.random() < 1/2){introductionIteration++}
+				for (let i = 0; i < introductionIteration; i++) {
+			generatedText += remindCharacter((charListsComplete.join('')+'YUIOPHJKLNM').split('')) + ' ';
+			}
+		}
+		
+		introductionIteration = 10;
+		
+		while (Math.random() < 1/2){introductionIteration++}
+			for (let i = 0; i < introductionIteration; i++) {
+			kataShift = wordsGen(charListsComplete);
+			if (isWordValid(kataShift, (daftarHurufKanan + ';,./').split(''))){
+				kataShift = kataShift.toUpperCase();
+			}
+			else if (isWordValid(kataShift[0], (daftarHurufKanan + ';,./').split(''))){
+				kataShift = kataShift[0].toUpperCase() + kataShift.substring(1);
+			}
+			generatedText += kataShift + ' ';
+		}
+		
+		inisialisasi();
+		return
+	}
+	
+	if (level == "rightShift"){
+		introductionIteration = 10;
+		while (Math.random() < 1/2){introductionIteration++}
+		for (let i = 0; i < introductionIteration; i++) {
+			generatedText += introduceShift('right') + ' ';
+		}
+		while (Math.random() < 1/2){
+			introductionIteration = 5;
+			while (Math.random() < 1/2){introductionIteration++}
+				for (let i = 0; i < introductionIteration; i++) {
+			generatedText += remindCharacter((charListsComplete.join('')+'QWERTASDFGZXCVB').split('')) + ' ';
+			}
+		}
+		
+		introductionIteration = 10;
+		
+		while (Math.random() < 1/2){introductionIteration++}
+			for (let i = 0; i < introductionIteration; i++) {
+			kataShift = wordsGen(charListsComplete);
+			if (isWordValid(kataShift, (daftarHurufKiri + ';,./').split(''))){
+				kataShift = kataShift.toUpperCase();
+			}
+			else if (isWordValid(kataShift[0], (daftarHurufKiri + ';,./').split(''))){
+				kataShift = kataShift[0].toUpperCase() + kataShift.substring(1);
+			}
+			generatedText += kataShift + ' ';
+		}
+		
+		inisialisasi();
+		return
+	}
+	
+	if (level == "shift"){
+		introductionIteration = 10;
+		while (Math.random() < 1/2){introductionIteration++}
+		for (let i = 0; i < introductionIteration; i++) {
+			generatedText += introduceShift() + ' ';
+		}
+		while (Math.random() < 1/2){
+			introductionIteration = 5;
+			while (Math.random() < 1/2){introductionIteration++}
+				for (let i = 0; i < introductionIteration; i++) {
+			generatedText += remindCharacter((charListsComplete.join('')+'QWERTASDFGZXCVBYUIOPHJKLNM').split('')) + ' ';
+			}
+		}
+		
+		introductionIteration = 10;
+		
+		while (Math.random() < 1/2){introductionIteration++}
+			for (let i = 0; i < introductionIteration; i++) {
+			kataShift = wordsGen(charListsComplete);
+			modeShift = Math.floor(Math.random()*3);
+			if (modeShift == 0){
+				generatedText += kataShift.toUpperCase() + ' ';
+			}
+			if (modeShift == 1){
+				generatedText += kataShift[0].toUpperCase() + kataShift.substring(1) + ' ';
+			}
+			if (modeShift == 2){
+				generatedText += kataShift + ' ';
+			}
+		}
+		
+		inisialisasi();
+		return
+	}
+	
+	
 
 	introductionIteration = 10;
 	while (Math.random() < 1/2){introductionIteration++}
@@ -42,7 +147,7 @@ function generateText(level) {
 		introductionIteration = 5;
 		while (Math.random() < 1/2){introductionIteration++}
 		for (let i = 0; i < introductionIteration; i++) {
-			generatedText += introduceCharacter(Math.ceil(Math.random()*level)) + ' ';
+			generatedText += introduceCharacter(Math.floor(Math.random()*level)+1) + ' ';
 		}
 	}
 	
@@ -147,6 +252,8 @@ function handleTyping(event) {
         currentIndex--;
         updateTextBox();
     }
+	
+	scrollToCursor();
 
     if (currentIndex === generatedText.length) {
         endTest();
@@ -213,12 +320,12 @@ function introduceCharacter(level){
 	switch(modeIntro){
 		case 0:
 			charIntro2 = charIntro[Math.floor(Math.random()*charIntro.length)];
-			hasil += charIntro2[Math.floor(Math.random()*charIntro2.length)].repeat(Math.ceil(Math.random()*4));
+			hasil += charIntro2[Math.floor(Math.random()*charIntro2.length)].repeat(Math.floor(Math.random()*4)+1);
 			break;
 		case 1:
 			charIntro2 = charIntro[Math.floor(Math.random()*charIntro.length)];
 			indeks = Math.floor(Math.random()*2);
-			hasil += (charIntro2[indeks] + charIntro2[1 - indeks]).repeat(Math.ceil(Math.random()*2));
+			hasil += (charIntro2[indeks] + charIntro2[1 - indeks]).repeat(Math.floor(Math.random()*2)+1);
 			break;
 		case 2:
 			charIntro2 = charIntro[Math.floor(Math.random()*charIntro.length)];
@@ -256,7 +363,7 @@ function introduceCharacter(level){
 			pil[0] = charIntro2[Math.floor(Math.random()*2)];
 			charIntro3 = charIntro[Math.floor(Math.random()*charIntro.length)];
 			pil[1] = charIntro3[Math.floor(Math.random()*2)];
-			hasil+= (pil[0] + pil[1]).repeat(Math.ceil(Math.random()*2));
+			hasil+= (pil[0] + pil[1]).repeat(Math.floor(Math.random()*2)+1);
 			break;
 		case 15:
 			pil = [];
@@ -264,7 +371,7 @@ function introduceCharacter(level){
 			pil[0] = charIntro2[Math.floor(Math.random()*2)];
 			charIntro3 = charIntro[Math.floor(Math.random()*charIntro.length)];
 			pil[1] = charIntro3[Math.floor(Math.random()*2)];
-			hasil+= pil[0].repeat(Math.ceil(Math.random()*4)) + ' ' + pil[1].repeat(Math.ceil(Math.random()*4));
+			hasil+= pil[0].repeat(Math.floor(Math.random()*4)+1) + ' ' + pil[1].repeat(Math.floor(Math.random()*4)+1);
 			break;
 		case 7:
 			pil = [];
@@ -371,6 +478,177 @@ function wordsGen(charLists){
 	return remindCharacter(charLists);
 }
 
+function introduceShift(dir = ''){
+	let daftarHurufShift;
+	if (dir == 'left'){daftarHurufShift = daftarHurufKanan}
+	else if (dir == 'right'){daftarHurufShift = daftarHurufKiri}
+	else {daftarHurufShift = daftarHurufKanan + daftarHurufKiri}	
+	let modeIntro = Math.floor(Math.random()*18);
+	let hasil = '';
+	let pilHuruf = '';
+	let perulangan = 0;
+	let charIntro2 = [];
+	let charIntro3 = [];
+	let charIntro4 = [];
+	let charIntro5 = [];
+	let indeks = 0;
+	let pil = [];
+	switch(modeIntro){
+		case 0:
+			hasil += daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)].toUpperCase().repeat(Math.floor(Math.random()*4)+1);
+			break;
+		case 16:
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			perulangan = Math.floor(Math.random()*4)+1
+			hasil += pilHuruf.toUpperCase().repeat(perulangan) + ' ' + pilHuruf.repeat(perulangan);
+			break;
+		case 17:
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			perulangan = Math.floor(Math.random()*4)+1
+			hasil += pilHuruf.repeat(perulangan) + ' ' + pilHuruf.toUpperCase().repeat(perulangan);
+			break;
+		case 1:
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			indeks = Math.floor(Math.random()*2);
+			hasil += (charIntro2[indeks] + charIntro2[1 - indeks]).repeat(Math.floor(Math.random()*2)+1);
+			break;
+		case 2:
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			indeks = Math.floor(Math.random()*2);
+			hasil += charIntro2[indeks] + charIntro2[1 - indeks] + charIntro2[1 - indeks] + charIntro2[indeks];
+			break;
+		case 3:
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			indeks = Math.floor(Math.random()*2);
+			hasil += charIntro2[indeks].repeat(2) + charIntro2[1 - indeks].repeat(2);
+			break;
+		case 4:
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			hasil += charIntro2[Math.floor(Math.random()*2)] + charIntro2[Math.floor(Math.random()*2)] + charIntro2[Math.floor(Math.random()*2)];
+			break;
+		case 11:
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			indeks2 = [Math.floor(Math.random()*2),Math.floor(Math.random()*2),Math.floor(Math.random()*2)];
+			hasil += charIntro2[indeks2[0]] + charIntro2[indeks2[1]] + charIntro2[indeks2[2]] + ' ';
+			hasil += charIntro2[1 - indeks2[0]] + charIntro2[1 - indeks2[1]] + charIntro2[1 - indeks2[2]];
+			break;
+		case 5:
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			hasil += charIntro2[Math.floor(Math.random()*2)] + charIntro2[Math.floor(Math.random()*2)] + charIntro2[Math.floor(Math.random()*2)] + charIntro2[Math.floor(Math.random()*2)];
+			break;
+		case 12:
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			indeks2 = [Math.floor(Math.random()*2),Math.floor(Math.random()*2),Math.floor(Math.random()*2),Math.floor(Math.random()*2)];
+			hasil += charIntro2[indeks2[0]] + charIntro2[indeks2[1]] + charIntro2[indeks2[2]] + charIntro2[indeks2[3]] + ' ';
+			hasil += charIntro2[1 - indeks2[0]] + charIntro2[1 - indeks2[1]] + charIntro2[1 - indeks2[2]] + charIntro2[1 - indeks2[3]];
+			break;
+		case 6:
+			pil = [];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[0] = charIntro2[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro3 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[1] = charIntro3[Math.floor(Math.random()*2)];
+			hasil+= (pil[0] + pil[1]).repeat(Math.floor(Math.random()*2)+1);
+			break;
+		case 15:
+			pil = [];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[0] = charIntro2[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro3 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[1] = charIntro3[Math.floor(Math.random()*2)];
+			hasil+= pil[0].repeat(Math.floor(Math.random()*4)+1) + ' ' + pil[1].repeat(Math.floor(Math.random()*4)+1);
+			break;
+		case 7:
+			pil = [];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[0] = charIntro2[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro3 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[1] = charIntro3[Math.floor(Math.random()*2)];
+			hasil+= pil[0].repeat(2) + pil[1].repeat(2);
+			break;
+		case 8:
+			pil = [];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[0] = charIntro2[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro3 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[1] = charIntro3[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro4 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[2] = charIntro4[Math.floor(Math.random()*2)];
+			hasil+= pil[0] + pil[1] + pil[2];
+			break;
+		case 13:
+			pil = [];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[0] = charIntro2[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro3 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[1] = charIntro3[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro4 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[2] = charIntro4[Math.floor(Math.random()*2)];
+			hasil+= pil[0] + pil[1] + pil[2] + ' ' + pil[Math.floor(Math.random()*3)] + pil[Math.floor(Math.random()*3)] + pil[Math.floor(Math.random()*3)];
+			break;
+		case 9:
+			pil = [];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[0] = charIntro2[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro3 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[1] = charIntro3[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro4 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[2] = charIntro4[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro5 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[3] = charIntro5[Math.floor(Math.random()*2)];
+			hasil+= pil[0] + pil[1] + pil[2]+ pil[3];
+			break;
+		case 14:
+			pil = [];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[0] = charIntro2[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro3 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[1] = charIntro3[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro4 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[2] = charIntro4[Math.floor(Math.random()*2)];
+			pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+			charIntro5 = [pilHuruf, pilHuruf.toUpperCase()];
+			pil[3] = charIntro5[Math.floor(Math.random()*2)];
+			hasil+= pil[0] + pil[1] + pil[2]+ pil[3] + ' ' + pil[Math.floor(Math.random()*4)] + pil[Math.floor(Math.random()*4)] + pil[Math.floor(Math.random()*4)]+ pil[Math.floor(Math.random()*4)];
+			break;
+		case 10:
+			for (let i = 0; i < 5; i++){
+				pilHuruf = daftarHurufShift[Math.floor(Math.random()*daftarHurufShift.length)];
+				charIntro2 = [pilHuruf, pilHuruf.toUpperCase()];
+				hasil += charIntro2[Math.floor(Math.random()*2)];
+			}
+			break;
+	}
+	if (Math.random() < 1/2){hasil = hasil + ' ' + hasil.split('').reverse().join('')}
+	return hasil
+}
+
 const levelData = {
 	0: {cha: [], comment:{id: '', en: ''}},
     1: {cha:[['a','s'],['l',';']], comment:{id: '<b>Letakkan jari-jari ke baris rumah</b><br>Perhatikan bahwa ada tonjolan kecil di huruf f dan j untuk membantu menempatkan jari dengan benar di baris rumah.<br>Letakkan jari kelingking kiri di huruf a, jari manis kiri di huruf s, jari tengah kiri di huruf d, dan jari telunjuk kiri di huruf f.<br>Letakkan jari telunjuk kanan di huruf j, jari tengah kanan di huruf k, jari manis kanan di huruf l, dan jari kelingking kanan di tanda titik koma (;).<br>Gunakan jari kelingking kiri untuk menekan huruf a, jari manis kiri untuk menekan huruf s, jari manis kanan untuk menekan huruf l, dan jari kelingking kanan untuk menekan tanda titik koma (;).<br>Tekan spasi dengan ibu jari/jempol', en: '<b>Place your fingers on the home row</b><br>Note that there are small bumps on the f and j keys to help you position your fingers correctly on the home row.<br>Place your left pinky finger on the letter a, your left ring finger on the letter s, your left middle finger on the letter d, and your left index finger on the letter f.<br>Place your right index finger on the letter j, your right middle finger on the letter k, your right ring finger on the letter l, and your right pinky finger on the semicolon (;).<br>Use your left pinky finger to press the letter a, your left ring finger to press the letter s, your right ring finger to press the letter l, and your right pinky finger to press the semicolon (;).<br>Press the spacebar with your thumb'}},
@@ -386,7 +664,10 @@ const levelData = {
 	11: {cha:[['x','.']], comment:{id: 'Gunakan jari tengah kiri untuk menekan huruf x<br>Gunakan jari tengah kanan untuk menekan tanda titik (.)', en:'Use the left middle finger to press the letter x<br>Use the right middle finger to press the period (.)'}},
 	12: {cha:[['q','p']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan huruf q<br>Gunakan jari kelingking kanan untuk menekan huruf p', en:'Use the left pinky finger to press the letter q<br>Use the right pinky finger to press the letter p'}},
 	13: {cha:[['z','/']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan huruf z<br>Gunakan jari kelingking kanan untuk menekan tanda garis miring (/)', en:'Use the left pinky finger to press the letter z<br>Use the right pinky finger to press the slash (/)'}},
-	"randomWords": {comment: {id: 'Latihan mengetik kata-kata acak',en: 'Practicing typing random words'}}
+	"randomWords": {comment: {id: 'Latihan mengetik kata-kata acak',en: 'Practicing typing random words'}},
+	"leftShift": {comment: {id: '<b>Shift Kiri</b><br>Tekan tombol Shift kiri dengan kelingking kiri untuk mengetik huruf besar dari huruf yang berada di bagian kanan keyboard. Misalnya, jika Anda menekan Shift kiri bersamaan dengan huruf l, maka akan menghasilkan huruf L yang besar.', en: '<b>Left Shift</b><br>Press the left Shift key with the left pinky finger to type uppercase letters of the characters located to the right side of the keyboard. For example, pressing the left Shift key along with the letter l will produce the uppercase letter L.'}},
+	"rightShift": {comment: {id: '<b>Shift Kanan</b><br>Tekan tombol Shift kanan dengan kelingking kanan untuk mengetik huruf besar dari huruf yang berada di bagian kiri keyboard. Misalnya, jika Anda menekan Shift kanan bersamaan dengan huruf a, maka akan menghasilkan huruf A yang besar.',en: '<b>Right Shift</b><br>Press the right Shift key with the right pinky finger to type uppercase letters of the characters located to the left side of the keyboard. For example, pressing the right Shift key along with the letter a will produce the uppercase letter A.'}},
+	"shift": {comment: {id: 'Latihan menggunakan kedua tombol shift',en: 'Practising using both shift keys'}},
 };
 
 const textTranslate = [
@@ -409,6 +690,27 @@ function changeLang(){
 function instructionUpdate(){
 	let bahasa = document.getElementById('language').value;
 	document.getElementById('instructions').innerHTML = levelData[document.getElementById('level').value].comment[bahasa];
+}
+
+function scrollToCursor() {
+    const textBox = document.getElementById('textBox');
+    const cursorElement = textBox.querySelector('.cursor-highlight');
+
+    if (cursorElement) {
+        const cursorRect = cursorElement.getBoundingClientRect();
+        const textBoxRect = textBox.getBoundingClientRect();
+
+        // Check if the cursor is out of view (above, below, left, or right of the visible area)
+        const isOutOfView =
+            cursorRect.top < textBoxRect.top || // Cursor is above the visible area ???
+            cursorRect.bottom > textBoxRect.bottom || // Cursor is below the visible area ???
+            cursorRect.left < textBoxRect.left || // Cursor is to the left of the visible area ???
+            cursorRect.right > textBoxRect.right; // Cursor is to the right of the visible area ???
+
+        if (isOutOfView) {
+            cursorElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        }
+    }
 }
 
 instructionUpdate()
