@@ -19,8 +19,20 @@ function generateText(level) {
     const characters = levelData[level];
     generatedText = "";
     typedText = "";
+	let introductionIteration;
+	
+	if (level == "randomWords"){
+		introductionIteration = 30;
+		charLists = 'qwertyuiopasdfghjkl;zxcvbnm,./'.split('');
+		while (Math.random() < 1/2){introductionIteration++}
+		for (let i = 0; i < introductionIteration; i++) {
+			generatedText += wordsGen(charLists) + ' ';
+		}
+		inisialisasi();
+		return
+	}
 
-	let introductionIteration = 10;
+	introductionIteration = 10;
 	while (Math.random() < 1/2){introductionIteration++}
     for (let i = 0; i < introductionIteration; i++) {
         generatedText += introduceCharacter(level) + ' ';
@@ -47,7 +59,7 @@ function generateText(level) {
 		}
 	}
 	
-	let charLists = [];
+	charLists = [];
 	let charrSel = [];
 	for (let i = 1; i <= level; i++){
 		charrSel = levelData[i].cha;
@@ -70,15 +82,19 @@ function generateText(level) {
 	for (let i = 0; i < introductionIteration; i++) {
 		generatedText += wordsGen(charLists) + ' ';
 	}
+	
+	inisialisasi();
+}
 
-    // Ensure no trailing space at the end
+function inisialisasi(){
+	// Ensure no trailing space at the end
     generatedText = generatedText.trim();
     currentIndex = 0;
 
     updateTextBox();
     document.getElementById('wpm').textContent = "0";
     document.getElementById('accuracy').textContent = "0%";
-    startTime = new Date().getTime();
+    startTime = new Date().getTime()
 }
 
 function updateTextBox() {
@@ -326,14 +342,15 @@ function remindCharacter(charLists){
 
 
 function isWordValid(word, allowedLetters) {
-	allowedLetters.push(' ');
+	let allowedLetters2 = [];
+	allowedLetters2 = allowedLetters
     // Ubah semua huruf pada kata menjadi huruf kecil
     word = word.toLowerCase();
     
     // Iterasi melalui setiap huruf dalam kata
     for (let i = 0; i < word.length; i++) {
         // Cek apakah huruf tidak ada di array allowedLetters
-        if (!allowedLetters.includes(word[i])) {
+        if (!allowedLetters2.includes(word[i])) {
             return false; // Jika tidak ada, kembalikan false
         }
     }
@@ -369,6 +386,7 @@ const levelData = {
 	11: {cha:[['x','.']], comment:{id: 'Gunakan jari tengah kiri untuk menekan huruf x<br>Gunakan jari tengah kanan untuk menekan tanda titik (.)', en:'Use the left middle finger to press the letter x<br>Use the right middle finger to press the period (.)'}},
 	12: {cha:[['q','p']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan huruf q<br>Gunakan jari kelingking kanan untuk menekan huruf p', en:'Use the left pinky finger to press the letter q<br>Use the right pinky finger to press the letter p'}},
 	13: {cha:[['z','/']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan huruf z<br>Gunakan jari kelingking kanan untuk menekan tanda garis miring (/)', en:'Use the left pinky finger to press the letter z<br>Use the right pinky finger to press the slash (/)'}},
+	"randomWords": {comment: {id: 'Latihan mengetik kata-kata acak',en: 'Practicing typing random words'}}
 };
 
 const textTranslate = [
