@@ -342,8 +342,8 @@ function remindCharacter(charLists){
 
 
 function isWordValid(word, allowedLetters) {
-	let allowedLetters2 = [];
-	allowedLetters2 = allowedLetters
+	var allowedLetters2 = allowedLetters;
+	allowedLetters2 = allowedLetters.concat([' ']);
     // Ubah semua huruf pada kata menjadi huruf kecil
     word = word.toLowerCase();
     
