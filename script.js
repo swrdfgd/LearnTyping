@@ -386,3 +386,5 @@ function instructionUpdate(){
 	let bahasa = document.getElementById('language').value;
 	document.getElementById('instructions').innerHTML = levelData[document.getElementById('level').value].comment[bahasa];
 }
+
+instructionUpdate();
