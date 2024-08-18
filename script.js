@@ -26,7 +26,6 @@ function generateText(level) {
 	
 	if (level == "randomWords"){
 		introductionIteration = 30;
-		charListsComplete = 'qwertyuiopasdfghjkl;zxcvbnm,./'.split('');
 		while (Math.random() < 1/2){introductionIteration++}
 		for (let i = 0; i < introductionIteration; i++) {
 			generatedText += wordsGen(charListsComplete) + ' ';
