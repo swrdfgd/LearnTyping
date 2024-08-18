@@ -18,6 +18,7 @@ function startTest() {
 const daftarHurufKanan = 'yuiophjklnm';
 const daftarHurufKiri = 'qwertasdfgzxcvb'
 const charListsComplete = 'qwertyuiopasdfghjkl;zxcvbnm,./'.split('');
+
 function generateText(level) {
     const characters = levelData[level];
     generatedText = "";
@@ -64,7 +65,9 @@ function generateText(level) {
 			else if (isWordValid(kataShift[0], (daftarHurufKanan + ';,./').split(''))){
 				kataShift = kataShift[0].toUpperCase() + kataShift.substring(1);
 			}
-			if (Math.random() < 1/2){kataShift += ','}
+			if(Math.random() < 1/2){kataShift += ','}
+			else if(Math.random() < 1/5){kataShift += '.'}
+			else if(Math.random() < 1/10) {kataShift += ';'}
 			generatedText += kataShift + ' ';
 		}
 		
@@ -99,7 +102,9 @@ function generateText(level) {
 			else if (isWordValid(kataShift[0], (daftarHurufKiri + ';,./').split(''))){
 				kataShift = kataShift[0].toUpperCase() + kataShift.substring(1);
 			}
-			if (Math.random() < 1/2){kataShift += ','}
+			if(Math.random() < 1/2){kataShift += ','}
+			else if(Math.random() < 1/5){kataShift += '.'}
+			else if(Math.random() < 1/10) {kataShift += ';'}
 			generatedText += kataShift + ' ';
 		}
 		
@@ -129,7 +134,9 @@ function generateText(level) {
 		introductionIteration = Math.floor(Math.random()*introductionIteration);
 		for (let i = 0; i < introductionIteration; i++) {
 			kataShift = wordsGen(charListsComplete);
-			if (Math.random() < 1/2){kataShift += ','}
+			if(Math.random() < 1/2){kataShift += ','}
+			else if(Math.random() < 1/5){kataShift += '.'}
+			else if(Math.random() < 1/10) {kataShift += ';'}
 			modeShift = Math.floor(Math.random()*3);
 			if (modeShift == 0){
 				generatedText += kataShift.toUpperCase() + ' ';
@@ -211,8 +218,18 @@ function generateText(level) {
 	while (Math.random() < 1/2){introductionIteration++}
 	introductionIteration = Math.floor(Math.random()*introductionIteration);
 	for (let i = 0; i < introductionIteration; i++) {
-		if (level >= 7 && Math.random() < 1/2){ 
-			generatedText += wordsGen(charLists) + ', ';
+		if (level >= 11 && Math.random() < 1/5){ 
+			pilihanSymbol = '.';
+			if (Math.floor(Math.random()*level)==0){pilihanSymbol = ';'}
+			generatedText += wordsGen(charLists) + pilihanSymbol + ' ';
+		}
+		else if (level >= 7 && Math.random() < 1/2){ 
+			pilihanSymbol = ',';
+			if (Math.floor(Math.random()*level)==0){pilihanSymbol = ';'}
+			generatedText += wordsGen(charLists) + pilihanSymbol + ' ';
+		}
+		else if (level < 7 && Math.random() < 1/2){
+			generatedText += wordsGen(charLists) + '; ';
 		}
 		else{
 			generatedText += wordsGen(charLists) + ' ';
@@ -225,6 +242,10 @@ function generateText(level) {
 function inisialisasi(){
 	// Ensure no trailing space at the end
     generatedText = generatedText.trim();
+	panjangText = 20;
+	while (Math.random() < 1/2){panjangText ++}
+	panjangText = Math.floor(Math.random()*panjangText) + 1;
+	if (generatedText.length < panjangText){startTest(); return}
     currentIndex = 0;
 
     updateTextBox();
