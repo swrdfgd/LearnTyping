@@ -27,6 +27,7 @@ function generateText(level) {
 	if (level == "randomWords"){
 		introductionIteration = 30;
 		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
 		for (let i = 0; i < introductionIteration; i++) {
 			generatedText += wordsGen(charListsComplete) + ' ';
 		}
@@ -38,13 +39,15 @@ function generateText(level) {
 	if (level == "leftShift"){
 		introductionIteration = 10;
 		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
 		for (let i = 0; i < introductionIteration; i++) {
 			generatedText += introduceShift('left') + ' ';
 		}
 		while (Math.random() < 1/2){
 			introductionIteration = 5;
 			while (Math.random() < 1/2){introductionIteration++}
-				for (let i = 0; i < introductionIteration; i++) {
+			introductionIteration = Math.floor(Math.random()*introductionIteration);
+			for (let i = 0; i < introductionIteration; i++) {
 			generatedText += remindCharacter((charListsComplete.join('')+'YUIOPHJKLNM').split('')) + ' ';
 			}
 		}
@@ -52,7 +55,8 @@ function generateText(level) {
 		introductionIteration = 10;
 		
 		while (Math.random() < 1/2){introductionIteration++}
-			for (let i = 0; i < introductionIteration; i++) {
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
+		for (let i = 0; i < introductionIteration; i++) {
 			kataShift = wordsGen(charListsComplete);
 			if (isWordValid(kataShift, (daftarHurufKanan + ';,./').split(''))){
 				kataShift = kataShift.toUpperCase();
@@ -60,6 +64,7 @@ function generateText(level) {
 			else if (isWordValid(kataShift[0], (daftarHurufKanan + ';,./').split(''))){
 				kataShift = kataShift[0].toUpperCase() + kataShift.substring(1);
 			}
+			if (Math.random() < 1/2){kataShift += ','}
 			generatedText += kataShift + ' ';
 		}
 		
@@ -76,7 +81,8 @@ function generateText(level) {
 		while (Math.random() < 1/2){
 			introductionIteration = 5;
 			while (Math.random() < 1/2){introductionIteration++}
-				for (let i = 0; i < introductionIteration; i++) {
+			introductionIteration = Math.floor(Math.random()*introductionIteration);
+			for (let i = 0; i < introductionIteration; i++) {
 			generatedText += remindCharacter((charListsComplete.join('')+'QWERTASDFGZXCVB').split('')) + ' ';
 			}
 		}
@@ -84,7 +90,8 @@ function generateText(level) {
 		introductionIteration = 10;
 		
 		while (Math.random() < 1/2){introductionIteration++}
-			for (let i = 0; i < introductionIteration; i++) {
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
+		for (let i = 0; i < introductionIteration; i++) {
 			kataShift = wordsGen(charListsComplete);
 			if (isWordValid(kataShift, (daftarHurufKiri + ';,./').split(''))){
 				kataShift = kataShift.toUpperCase();
@@ -92,6 +99,7 @@ function generateText(level) {
 			else if (isWordValid(kataShift[0], (daftarHurufKiri + ';,./').split(''))){
 				kataShift = kataShift[0].toUpperCase() + kataShift.substring(1);
 			}
+			if (Math.random() < 1/2){kataShift += ','}
 			generatedText += kataShift + ' ';
 		}
 		
@@ -102,13 +110,15 @@ function generateText(level) {
 	if (level == "shift"){
 		introductionIteration = 10;
 		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
 		for (let i = 0; i < introductionIteration; i++) {
 			generatedText += introduceShift() + ' ';
 		}
 		while (Math.random() < 1/2){
 			introductionIteration = 5;
 			while (Math.random() < 1/2){introductionIteration++}
-				for (let i = 0; i < introductionIteration; i++) {
+			introductionIteration = Math.floor(Math.random()*introductionIteration);
+			for (let i = 0; i < introductionIteration; i++) {
 			generatedText += remindCharacter((charListsComplete.join('')+'QWERTASDFGZXCVBYUIOPHJKLNM').split('')) + ' ';
 			}
 		}
@@ -116,8 +126,10 @@ function generateText(level) {
 		introductionIteration = 10;
 		
 		while (Math.random() < 1/2){introductionIteration++}
-			for (let i = 0; i < introductionIteration; i++) {
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
+		for (let i = 0; i < introductionIteration; i++) {
 			kataShift = wordsGen(charListsComplete);
+			if (Math.random() < 1/2){kataShift += ','}
 			modeShift = Math.floor(Math.random()*3);
 			if (modeShift == 0){
 				generatedText += kataShift.toUpperCase() + ' ';
@@ -138,13 +150,33 @@ function generateText(level) {
 
 	introductionIteration = 10;
 	while (Math.random() < 1/2){introductionIteration++}
+	introductionIteration = Math.floor(Math.random()*introductionIteration);
     for (let i = 0; i < introductionIteration; i++) {
         generatedText += introduceCharacter(level) + ' ';
     }
 	
+	charLists = [];
+	let charrSel = [];
+	for (let i = 1; i <= level; i++){
+		charrSel = levelData[i].cha;
+		for (let j = 0; j < charrSel.length; j++){
+			charLists = charLists.concat(charrSel[j]);
+		}
+	}
+	
+	if (level == 7){
+		introductionIteration = 10;
+		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
+		for (let i = 0; i < introductionIteration; i++) {
+			generatedText += wordsGen(charLists) + ', ';
+		}
+	}
+	
 	while (Math.random() < 1/2){
 		introductionIteration = 5;
 		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
 		for (let i = 0; i < introductionIteration; i++) {
 			generatedText += introduceCharacter(Math.floor(Math.random()*level)+1) + ' ';
 		}
@@ -163,19 +195,13 @@ function generateText(level) {
 		}
 	}
 	
-	charLists = [];
-	let charrSel = [];
-	for (let i = 1; i <= level; i++){
-		charrSel = levelData[i].cha;
-		for (let j = 0; j < charrSel.length; j++){
-			charLists = charLists.concat(charrSel[j]);
-		}
-	}
+
 	
 	
 	while (Math.random() < 1/2){
 		introductionIteration = 5;
 		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
 		for (let i = 0; i < introductionIteration; i++) {
 			generatedText += remindCharacter(charLists) + ' ';
 		}
@@ -183,8 +209,14 @@ function generateText(level) {
 	
 	introductionIteration = 10;
 	while (Math.random() < 1/2){introductionIteration++}
+	introductionIteration = Math.floor(Math.random()*introductionIteration);
 	for (let i = 0; i < introductionIteration; i++) {
-		generatedText += wordsGen(charLists) + ' ';
+		if (level >= 7 && Math.random() < 1/2){ 
+			generatedText += wordsGen(charLists) + ', ';
+		}
+		else{
+			generatedText += wordsGen(charLists) + ' ';
+		}		
 	}
 	
 	inisialisasi();
