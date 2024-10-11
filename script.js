@@ -255,6 +255,7 @@ function generateText(level) {
 	for (let i = 0; i < introductionIteration; i++) {
 		kataBaru = wordsGen(charLists)
 		modeShift = Math.floor(Math.random()*3);
+		if (level < 14){modeShift = 2}
 		if (modeShift == 0){
 			kataBaru = kataBaru.toUpperCase();
 		}
