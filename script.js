@@ -153,21 +153,53 @@ function generateText(level) {
 		return
 	}
 	
-	
-
-	introductionIteration = 10;
-	while (Math.random() < 1/2){introductionIteration++}
-	introductionIteration = Math.floor(Math.random()*introductionIteration);
-    for (let i = 0; i < introductionIteration; i++) {
-        generatedText += introduceCharacter(level) + ' ';
-    }
-	
 	charLists = [];
 	let charrSel = [];
 	for (let i = 1; i <= level; i++){
 		charrSel = levelData[i].cha;
 		for (let j = 0; j < charrSel.length; j++){
 			charLists = charLists.concat(charrSel[j]);
+		}
+	}
+	if (level >= 14){
+		charLists = charLists.concat('QWERTYUIOPASDFGHJKLZXCVBNM?'.split(''));
+		if (level >= 15){charLists.push(':')}
+	}	
+
+	introductionIteration = 10;
+	while (Math.random() < 1/2){introductionIteration++}
+	introductionIteration = Math.floor(Math.random()*introductionIteration)+1;
+    for (let i = 0; i < introductionIteration; i++) {
+		if (level >= 14 && level <= 15){
+				levelData[level].cha[0][1] = charLists[Math.floor(Math.random()*charLists.length)];
+		}
+        generatedText += introduceCharacter(level) + ' ';
+    }
+	
+	if (level >= 14 && level <= 15){
+		introductionIteration = 10;
+		symbols = '?:'
+		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
+		for (let i = 0; i < introductionIteration; i++) {
+			generatedText += wordsGen(charLists);
+			if (Math.random() < 1/5){
+				generatedText += symbols[level - 14];
+			}
+			generatedText += ' ';
+		}
+	}
+	
+	if (level == 11){
+		introductionIteration = 10;
+		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
+		for (let i = 0; i < introductionIteration; i++) {
+			generatedText += wordsGen(charLists);
+			if (Math.random() < 1/5){
+				generatedText += '.';
+			}
+			generatedText += ' ';
 		}
 	}
 	
@@ -197,6 +229,9 @@ function generateText(level) {
 		pilih3 = levelData[Math.floor(Math.random()*level)+1].cha;
 		pilih4 = levelData[Math.floor(Math.random()*level)+1].cha;
 		levelData[0].cha = [[pilih1[Math.floor(Math.random()*pilih1.length)][Math.floor(Math.random()*2)],pilih2[Math.floor(Math.random()*pilih2.length)][Math.floor(Math.random()*2)]],[pilih3[Math.floor(Math.random()*pilih3.length)][Math.floor(Math.random()*2)],pilih4[Math.floor(Math.random()*pilih4.length)][Math.floor(Math.random()*2)]]];
+		if (level >= 14){
+			levelData[0].cha = [[charLists[Math.floor(Math.random()*charLists.length)],charLists[Math.floor(Math.random()*charLists.length)]],[charLists[Math.floor(Math.random()*charLists.length)],charLists[Math.floor(Math.random()*charLists.length)]]]
+		}
 		for (let i = 0; i < introductionIteration; i++) {
 			generatedText += introduceCharacter(0) + ' ';
 		}
@@ -218,21 +253,31 @@ function generateText(level) {
 	while (Math.random() < 1/2){introductionIteration++}
 	introductionIteration = Math.floor(Math.random()*introductionIteration);
 	for (let i = 0; i < introductionIteration; i++) {
-		if (level >= 11 && Math.random() < 1/5){ 
-			pilihanSymbol = '.';
-			if (Math.floor(Math.random()*level)==0){pilihanSymbol = ';'}
-			generatedText += wordsGen(charLists) + pilihanSymbol + ' ';
+		kataBaru = wordsGen(charLists)
+		modeShift = Math.floor(Math.random()*3);
+		if (modeShift == 0){
+			kataBaru = kataBaru.toUpperCase();
+		}
+		if (modeShift == 1){
+			kataBaru = kataBaru[0].toUpperCase() + kataBaru.substring(1);
+		}
+		if (level >= 15 && Math.random() < 1/20){ 
+			generatedText += kataBaru + ': ';
+		}
+		if (level >= 14 && Math.random() < 1/10){ 
+			generatedText += kataBaru + '? ';
+		}
+		else if (level >= 11 && Math.random() < 1/5){ 
+			generatedText += kataBaru + '. ';
 		}
 		else if (level >= 7 && Math.random() < 1/2){ 
-			pilihanSymbol = ',';
-			if (Math.floor(Math.random()*level)==0){pilihanSymbol = ';'}
-			generatedText += wordsGen(charLists) + pilihanSymbol + ' ';
+			generatedText += kataBaru + ', ';
 		}
-		else if (level < 7 && Math.random() < 1/2){
-			generatedText += wordsGen(charLists) + '; ';
+		else if ((level < 7 && Math.random() < 1/2) || (Math.floor(Math.random()*level)==0)){
+			generatedText += kataBaru + '; ';
 		}
 		else{
-			generatedText += wordsGen(charLists) + ' ';
+			generatedText += kataBaru + ' ';
 		}		
 	}
 	
@@ -251,7 +296,8 @@ function inisialisasi(){
     updateTextBox();
     document.getElementById('wpm').textContent = "0";
     document.getElementById('accuracy').textContent = "0%";
-    startTime = new Date().getTime()
+	firstLetter = false;
+    
 }
 
 function updateTextBox() {
@@ -298,6 +344,10 @@ function handleTyping(event) {
             currentIndex++;
         }
         updateTextBox();
+		if (!firstLetter){
+			firstLetter = true;
+			startTime = new Date().getTime()
+		}
         calculateWPM();
     } else if (event.key === 'Backspace' && currentIndex > 0) {
         typedText = typedText.slice(0, -1);
@@ -343,7 +393,8 @@ function calculateWPM() {
     if (testStarted) {
         const timeElapsed = (new Date().getTime() - startTime) / 1000; // in seconds
         const wordsTyped = typedText.split(' ').length;
-        const wpm = (wordsTyped / timeElapsed) * 60;
+        wpm = (wordsTyped / timeElapsed) * 60;
+		if (wpm == Infinity){wpm =''}
         document.getElementById('wpm').textContent = Math.round(wpm);
     }
 }
@@ -526,6 +577,16 @@ function wordsGen(charLists){
 		pilihanKata = kataIndo[Math.floor(Math.random()*kataIndo.length)];
 	}
 	pilihanKata = pilihanKata.toLowerCase();
+    if (charLists.includes('/') && Math.random() < 1/(charLists.length)){
+		if (document.getElementById('language').value == 'en'){
+			pilihanKata2 = englishWordsFreq[Math.floor(Math.random()*englishWordsFreq.length)];
+		}
+		else {
+			pilihanKata2 = kataIndo[Math.floor(Math.random()*kataIndo.length)];
+		}
+		pilihanKata2 = pilihanKata2.toLowerCase();
+		pilihanKata = pilihanKata + '/' + pilihanKata2;
+	}
 	if (isWordValid(pilihanKata,charLists)){return pilihanKata};
 	return remindCharacter(charLists);
 }
@@ -720,6 +781,8 @@ const levelData = {
 	"leftShift": {comment: {id: '<b>Shift Kiri</b><br>Tekan tombol Shift kiri dengan kelingking kiri untuk mengetik huruf besar dari huruf yang berada di bagian kanan keyboard. Misalnya, jika Anda menekan Shift kiri bersamaan dengan huruf l, maka akan menghasilkan huruf L yang besar.', en: '<b>Left Shift</b><br>Press the left Shift key with the left pinky finger to type uppercase letters of the characters located to the right side of the keyboard. For example, pressing the left Shift key along with the letter l will produce the uppercase letter L.'}},
 	"rightShift": {comment: {id: '<b>Shift Kanan</b><br>Tekan tombol Shift kanan dengan kelingking kanan untuk mengetik huruf besar dari huruf yang berada di bagian kiri keyboard. Misalnya, jika Anda menekan Shift kanan bersamaan dengan huruf a, maka akan menghasilkan huruf A yang besar.',en: '<b>Right Shift</b><br>Press the right Shift key with the right pinky finger to type uppercase letters of the characters located to the left side of the keyboard. For example, pressing the right Shift key along with the letter a will produce the uppercase letter A.'}},
 	"shift": {comment: {id: 'Latihan menggunakan kedua tombol shift',en: 'Practising using both shift keys'}},
+	14: {cha:[['?','?']], comment:{id: 'Left Shift + / = ?', en:'Left Shift + / = ?'}},
+	15: {cha:[[':',':']], comment:{id: 'Left Shift + ; = :', en:'Left Shift + ; = :'}},
 };
 
 const textTranslate = [
