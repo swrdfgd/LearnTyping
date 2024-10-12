@@ -374,6 +374,41 @@ function generateText(level) {
 		}		
 	}
 	
+	let bahasa = document.getElementById('language').value;
+	if (bahasa == 'en'){
+		if (randomWiki.length > 0){
+				introductionIteration = 1;
+				//while (Math.random() < 1/2){introductionIteration++}
+				//introductionIteration = Math.floor(Math.random()*introductionIteration);
+				for (let i = 0; i < introductionIteration; i++) {
+					pilihanWiki = randomWiki[Math.floor(Math.random()*randomWiki.length)] + ' ' + randomWiki[Math.floor(Math.random()*randomWiki.length)] + ' ' + randomWiki[Math.floor(Math.random()*randomWiki.length)];
+					pilihanWiki = filterTextByCharList(pilihanWiki);
+					pilihanWiki = pilihanWiki.substring(Math.random()*pilihanWiki.length,Math.random()*pilihanWiki.length);
+					while (pilihanWiki.length >= 2*(generatedText.length)){
+						pilihanWiki = pilihanWiki.substring(Math.random()*pilihanWiki.length,Math.random()*pilihanWiki.length);
+					}
+					generatedText += pilihanWiki + ' ';
+				}
+		}
+	}
+	else{
+		if (randomWikiID.length > 0){
+				introductionIteration = 1;
+				//while (Math.random() < 1/2){introductionIteration++}
+				//introductionIteration = Math.floor(Math.random()*introductionIteration);
+				for (let i = 0; i < introductionIteration; i++) {
+					pilihanWiki = randomWikiID[Math.floor(Math.random()*randomWikiID.length)] + ' ' + randomWikiID[Math.floor(Math.random()*randomWikiID.length)] + ' ' + randomWikiID[Math.floor(Math.random()*randomWikiID.length)];
+					pilihanWiki = filterTextByCharList(pilihanWiki);
+					pilihanWiki = pilihanWiki.substring(Math.random()*pilihanWiki.length,Math.random()*pilihanWiki.length);
+					while (pilihanWiki.length >= 2*(generatedText.length)){
+						pilihanWiki = pilihanWiki.substring(Math.random()*pilihanWiki.length,Math.random()*pilihanWiki.length);
+					}
+					generatedText += pilihanWiki + ' ';
+				}
+		}
+	}
+	
+	generatedText = generatedText.replace(/\s+/g, ' ').trim();
 	inisialisasi();
 }
 
@@ -889,6 +924,23 @@ function extraSpecialLevel(n){
 			else{
 			}
 			break;
+		case '19':
+			if (Math.random() <1/2){
+				let jamAcak = '2' + (2 + Math.floor(Math.random()*3));
+				let menitAcak = '' + (2 + Math.floor(Math.random()*4)) + (2 + Math.floor(Math.random()*8));
+				let titikKomaJam = jamAcak + ':' + menitAcak;
+				if (Math.random() < 1/2){
+					menitAcak ='' + (2 + Math.floor(Math.random()*4)) + (2 + Math.floor(Math.random()*8));
+					titikKomaJam += ':' + menitAcak;
+				}
+				hasilExtra = titikKomaJam;
+			}
+			else{
+				let angkaAcak = numberS[Math.floor(Math.random()*numberS.length)];
+				while (Math.random() < 1/2){angkaAcak += numberS[Math.floor(Math.random()*numberS.length)]}
+				hasilExtra = angkaAcak + ' ' + wordsGenShift(charLists);
+			}
+			break;
 		case '20':
 			if (Math.random() <1/2){
 				let jamAcak = Math.floor(Math.random()*24);
@@ -904,6 +956,9 @@ function extraSpecialLevel(n){
 				hasilExtra = titikKomaJam;
 			}
 			else{
+				let angkaAcak = numberS[Math.floor(Math.random()*numberS.length)];
+				while (Math.random() < 1/2){angkaAcak += numberS[Math.floor(Math.random()*numberS.length)]}
+				hasilExtra = angkaAcak + ' ' + wordsGenShift(charLists);
 			}
 			break;
 		case '23':
@@ -960,7 +1015,13 @@ const levelData = {
 	24: {cha:[['@','(']], comment:{id: 'Shift Kanan + 2 = @<br>Shift Kiri + 9 = (', en:'Right Shift + 2 = @<br>Left Shift + 9 = ('}},
 	25: {cha:[['!',')']], comment:{id: 'Shift Kanan + 1 = !<br>Shift Kiri + 0 = )', en:'Right Shift + 1 = !<br>Left Shift + 0 = )'}},
 	26: {cha:[['\'','\'']], comment:{id: 'Gunakan jari kelingking kanan untuk menekan tanda petik (\') di samping kanan ;', en:'Use the right pinky finger to press the quotation mark (\') next to the right of ;'}},
-	27: {cha:[['<','>']], comment:{id: 'Shift Kiri + , &lt;<br>Shift Kiri + . = &gt', en:'Right Shift + , = &lt;<br>Left Shift + . = &gt'}},
+	27: {cha:[['"','"']], comment:{id: 'Shift Kiri + \' = "', en:'Left Shift + \' = "'}},
+	28: {cha:[['<','>']], comment:{id: 'Shift Kiri + , = &lt;<br>Shift Kiri + . = &gt', en:'Right Shift + , = &lt;<br>Left Shift + . = &gt'}},
+	29: {cha:[['[',']']], comment:{id: 'Gunakan jari kelingking kanan untuk menekan simbol [<br>Gunakan jari kelingking kanan sedikit lebih jauh untuk menekan simbol ]', en:'Use your right pinky finger to press the symbol [<br>Use your right pinky finger slightly further to press the symbol ]'}},
+    30: {cha:[['-','=']], comment:{id: 'Seperti biasa, kelingking kanan lagi untuk menekan tanda kurang (-) dan sama dengan (=) :)', en:'As usual, the right pinky again to press the minus (-) and equals (=) signs :)'}},
+	31: {cha:[['{','}']], comment:{id: 'Shift + [] = {}', en:'Shift + [] = {}'}},
+	32: {cha:[['\\','\\']], comment:{id: 'Kelingking kanan', en:'Right pinky'}},
+
 };
 
 const textTranslate = [
