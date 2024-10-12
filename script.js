@@ -1,3 +1,13 @@
+//pencegah spasi
+document.addEventListener('keydown', function(event) {
+    // Cek apakah tombol yang ditekan adalah spasi (key code 32)
+    // atau kombinasi Shift + Spasi (Shift + key code 32)
+    if (event.code === 'Space' || (event.shiftKey && event.code === 'Space')) {
+        // Mencegah perilaku default (scrolling)
+        event.preventDefault();
+    }
+});
+
 let generatedText = "";
 let startTime;
 let currentIndex = 0;
@@ -31,6 +41,21 @@ function generateText(level) {
 		introductionIteration = Math.floor(Math.random()*introductionIteration);
 		for (let i = 0; i < introductionIteration; i++) {
 			generatedText += wordsGen(charListsComplete) + ' ';
+		}
+		inisialisasi();
+		return
+	}
+	
+	if (level == "randomWords2"){
+		introductionIteration = 30;
+		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
+		for (let i = 0; i < introductionIteration; i++) {
+			pilihanKata = wordsGen(charListsComplete);
+			if (Math.random() < 1/10){
+				pilihanKata = pilihanKata[0].toUpperCase() + pilihanKata.substring(1);
+			}
+			generatedText += pilihanKata + ' ';
 		}
 		inisialisasi();
 		return
@@ -158,23 +183,47 @@ function generateText(level) {
 	for (let i = 1; i <= level; i++){
 		charrSel = levelData[i].cha;
 		for (let j = 0; j < charrSel.length; j++){
-			charLists = charLists.concat(charrSel[j]);
+			if (charrSel[j][0]==charrSel[j][1]){
+				charLists.push(charrSel[j][0]);
+			}
+			else{
+				charLists = charLists.concat(charrSel[j]);
+			}
 		}
 	}
 	if (level >= 14){
-		charLists = charLists.concat('QWERTYUIOPASDFGHJKLZXCVBNM?'.split(''));
-		if (level >= 15){charLists.push(':')}
+		charLists = charLists.concat('QWERTYUIOPASDFGHJKLZXCVBNM'.split(''));
+		if (level >= 16){
+			numberS = [];
+			for (let i = 16; i <= Math.min(level,20); i++){
+					numberS = numberS.concat(levelData[i].cha[0]);
+			}
+		}
 	}	
 
 	introductionIteration = 10;
 	while (Math.random() < 1/2){introductionIteration++}
 	introductionIteration = Math.floor(Math.random()*introductionIteration)+1;
     for (let i = 0; i < introductionIteration; i++) {
-		if (level >= 14 && level <= 15){
+		if (levelData[level].cha[0][1] == levelData[level].cha[0][0]){
 				levelData[level].cha[0][1] = charLists[Math.floor(Math.random()*charLists.length)];
+				generatedText += introduceCharacter(level) + ' ';
+				levelData[level].cha[0][1] = levelData[level].cha[0][0];
 		}
-        generatedText += introduceCharacter(level) + ' ';
+		else{generatedText += introduceCharacter(level) + ' ';}
     }
+	
+	if (level >= 16 && level <= 20){
+		while (Math.random() < 1/2){
+			introductionIteration = 5;
+			while (Math.random() < 1/2){introductionIteration++}
+			introductionIteration = Math.floor(Math.random()*introductionIteration);
+			levelData[0].cha = [[numberS[Math.floor(Math.random()*numberS.length)],numberS[Math.floor(Math.random()*numberS.length)]],[numberS[Math.floor(Math.random()*numberS.length)],numberS[Math.floor(Math.random()*numberS.length)]]]
+			for (let i = 0; i < introductionIteration; i++) {
+				generatedText += introduceCharacter(0) + ' ';
+			}
+		}
+	}
 	
 	if (level >= 14 && level <= 15){
 		introductionIteration = 10;
@@ -212,6 +261,44 @@ function generateText(level) {
 		}
 	}
 	
+	while (Math.random() < 1/2 && (level >= 16) && (level <= 20)){
+		introductionIteration = 5;
+		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
+		for (let i = 0; i < introductionIteration; i++) {
+			angkaAcak = ''
+			angkaAcak = numberS[Math.floor(Math.random()*numberS.length)];
+			while (Math.random()<1/2){
+				angkaAcak += numberS[Math.floor(Math.random()*numberS.length)];
+			}
+			generatedText += angkaAcak + ' ';
+		}
+	}
+	
+	while (Math.random() < 1/2){
+		introductionIteration = 10;
+		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
+		for (let i = 0; i < introductionIteration; i++) {
+			kataSpesial = extraSpecialLevel(level);
+			if (kataSpesial != ''){
+				generatedText += kataSpesial + ' ';
+			}
+		}
+	}
+	
+	while (Math.random() < 1/2){
+		introductionIteration = 5;
+		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
+		for (let i = 0; i < introductionIteration; i++) {
+			kataSpesial = extraSpecialLevel(Math.floor(Math.random()*level)+1);
+			if (kataSpesial != ''){
+				generatedText += kataSpesial + ' ';
+			}
+		}
+	}
+	
 	while (Math.random() < 1/2){
 		introductionIteration = 5;
 		while (Math.random() < 1/2){introductionIteration++}
@@ -224,6 +311,8 @@ function generateText(level) {
 	let pilih1; let pilih2; let pilih3; let pilih4;
 	while (Math.random() < 1/2){
 		introductionIteration = 5;
+		while (Math.random() < 1/2){introductionIteration++}
+		introductionIteration = Math.floor(Math.random()*introductionIteration);
 		pilih1 = levelData[Math.floor(Math.random()*level)+1].cha;
 		pilih2 = levelData[Math.floor(Math.random()*level)+1].cha;
 		pilih3 = levelData[Math.floor(Math.random()*level)+1].cha;
@@ -254,18 +343,21 @@ function generateText(level) {
 	introductionIteration = Math.floor(Math.random()*introductionIteration);
 	for (let i = 0; i < introductionIteration; i++) {
 		kataBaru = wordsGen(charLists)
-		modeShift = Math.floor(Math.random()*3);
+		modeShift = Math.floor(Math.random()*10);
 		if (level < 14){modeShift = 2}
-		if (modeShift == 0){
+		if (modeShift == 9){
 			kataBaru = kataBaru.toUpperCase();
 		}
-		if (modeShift == 1){
+		if (modeShift >= 5){
 			kataBaru = kataBaru[0].toUpperCase() + kataBaru.substring(1);
+		}
+		if (level >= 16 && Math.random() < 1/level){ 
+			kataBaru = numberS[Math.floor(Math.random()*numberS.length)] + ' ' + kataBaru;
 		}
 		if (level >= 15 && Math.random() < 1/20){ 
 			generatedText += kataBaru + ': ';
 		}
-		if (level >= 14 && Math.random() < 1/10){ 
+		else if (level >= 14 && Math.random() < 1/10){ 
 			generatedText += kataBaru + '? ';
 		}
 		else if (level >= 11 && Math.random() < 1/5){ 
@@ -592,6 +684,18 @@ function wordsGen(charLists){
 	return remindCharacter(charLists);
 }
 
+function wordsGenShift(charLists){
+	let hasil = wordsGen(charLists)
+	modeShift = Math.floor(Math.random()*10);
+	if (modeShift == 9){
+		hasil = hasil.toUpperCase();
+	}
+	if (modeShift >= 5){
+		hasil = hasil[0].toUpperCase() + hasil.substring(1);
+	}
+	return hasil
+}
+
 function introduceShift(dir = ''){
 	let daftarHurufShift;
 	if (dir == 'left'){daftarHurufShift = daftarHurufKanan}
@@ -763,6 +867,65 @@ function introduceShift(dir = ''){
 	return hasil
 }
 
+
+function extraSpecialLevel(n){
+	let hasilExtra = ''
+	n = '' + n
+	
+	switch (n) {
+		case '15':
+			if (Math.random() <1/2){
+				kataBaru = wordsGenShift(charLists);
+				hasilExtra = kataBaru + ': ';
+				kataBaru = wordsGenShift(charLists);
+				hasilExtra += kataBaru + ', '
+				kataBaru = wordsGenShift(charLists);
+				hasilExtra += kataBaru
+				while (Math.random() <1/2){
+					kataBaru = wordsGenShift(charLists);
+					hasilExtra += ', ' + kataBaru
+				}
+			}
+			else{
+			}
+			break;
+		case '20':
+			if (Math.random() <1/2){
+				let jamAcak = Math.floor(Math.random()*24);
+				if (jamAcak < 10){jamAcak = '0' + jamAcak}
+				let menitAcak = Math.floor(Math.random()*60);
+				if (menitAcak < 10){menitAcak = '0' + menitAcak}
+				let titikKomaJam = jamAcak + ':' + menitAcak;
+				if (Math.random() < 1/2){
+					menitAcak = Math.floor(Math.random()*60);
+					if (menitAcak < 10){menitAcak = '0' + menitAcak}
+					titikKomaJam += ':' + menitAcak;
+				}
+				hasilExtra = titikKomaJam;
+			}
+			else{
+			}
+			break;
+		case '23':
+			if (Math.random() < 1/2){
+				kataBaru = wordsGen(charLists)
+				modeShift = Math.floor(Math.random()*3);
+				if (modeShift == 0){
+					kataBaru = kataBaru.toUpperCase();
+				}
+				if (modeShift == 1){
+					kataBaru = kataBaru[0].toUpperCase() + kataBaru.substring(1);
+				}
+				hasilExtra = '#' + kataBaru;
+			}
+			else{
+			}
+			break;
+	}
+	
+	return hasilExtra
+}
+
 const levelData = {
 	0: {cha: [], comment:{id: '', en: ''}},
     1: {cha:[['a','s'],['l',';']], comment:{id: '<b>Letakkan jari-jari ke baris rumah</b><br>Perhatikan bahwa ada tonjolan kecil di huruf f dan j untuk membantu menempatkan jari dengan benar di baris rumah.<br>Letakkan jari kelingking kiri di huruf a, jari manis kiri di huruf s, jari tengah kiri di huruf d, dan jari telunjuk kiri di huruf f.<br>Letakkan jari telunjuk kanan di huruf j, jari tengah kanan di huruf k, jari manis kanan di huruf l, dan jari kelingking kanan di tanda titik koma (;).<br>Gunakan jari kelingking kiri untuk menekan huruf a, jari manis kiri untuk menekan huruf s, jari manis kanan untuk menekan huruf l, dan jari kelingking kanan untuk menekan tanda titik koma (;).<br>Tekan spasi dengan ibu jari/jempol', en: '<b>Place your fingers on the home row</b><br>Note that there are small bumps on the f and j keys to help you position your fingers correctly on the home row.<br>Place your left pinky finger on the letter a, your left ring finger on the letter s, your left middle finger on the letter d, and your left index finger on the letter f.<br>Place your right index finger on the letter j, your right middle finger on the letter k, your right ring finger on the letter l, and your right pinky finger on the semicolon (;).<br>Use your left pinky finger to press the letter a, your left ring finger to press the letter s, your right ring finger to press the letter l, and your right pinky finger to press the semicolon (;).<br>Press the spacebar with your thumb'}},
@@ -782,8 +945,22 @@ const levelData = {
 	"leftShift": {comment: {id: '<b>Shift Kiri</b><br>Tekan tombol Shift kiri dengan kelingking kiri untuk mengetik huruf besar dari huruf yang berada di bagian kanan keyboard. Misalnya, jika Anda menekan Shift kiri bersamaan dengan huruf l, maka akan menghasilkan huruf L yang besar.', en: '<b>Left Shift</b><br>Press the left Shift key with the left pinky finger to type uppercase letters of the characters located to the right side of the keyboard. For example, pressing the left Shift key along with the letter l will produce the uppercase letter L.'}},
 	"rightShift": {comment: {id: '<b>Shift Kanan</b><br>Tekan tombol Shift kanan dengan kelingking kanan untuk mengetik huruf besar dari huruf yang berada di bagian kiri keyboard. Misalnya, jika Anda menekan Shift kanan bersamaan dengan huruf a, maka akan menghasilkan huruf A yang besar.',en: '<b>Right Shift</b><br>Press the right Shift key with the right pinky finger to type uppercase letters of the characters located to the left side of the keyboard. For example, pressing the right Shift key along with the letter a will produce the uppercase letter A.'}},
 	"shift": {comment: {id: 'Latihan menggunakan kedua tombol shift',en: 'Practising using both shift keys'}},
-	14: {cha:[['?','?']], comment:{id: 'Left Shift + / = ?', en:'Left Shift + / = ?'}},
-	15: {cha:[[':',':']], comment:{id: 'Left Shift + ; = :', en:'Left Shift + ; = :'}},
+	"randomWords2": {comment: {id: 'Latihan mengetik kata-kata acak dengan huruf kapital',en: 'Practicing typing random words with capital letters'}},
+	14: {cha:[['?','?']], comment:{id: 'Shift Kiri + / = ?', en:'Left Shift + / = ?'}},
+	15: {cha:[[':',':']], comment:{id: 'Shift Kiri + ; = :', en:'Left Shift + ; = :'}},
+	16: {cha:[['4','7']], comment:{id: 'Gunakan jari telunjuk kiri untuk menekan angka 4<br>Gunakan jari telunjuk kanan untuk menekan angka 7', en:'Use the left index finger to press the number 4<br>Use the right index finger to press the number 7'}},
+	17: {cha:[['5','6']], comment:{id: 'Gunakan jari telunjuk kiri untuk menekan angka 5<br>Gunakan jari telunjuk kanan untuk menekan angka 6', en:'Use the left index finger to press the number 5<br>Use the right index finger to press the number 6'}},
+	18: {cha:[['3','8']], comment:{id: 'Gunakan jari tengah kiri untuk menekan angka 3<br>Gunakan jari telunjuk kanan untuk menekan angka 8', en:'Use the left middle finger to press the number 3<br>Use the right index finger to press the number 8'}},
+	19: {cha:[['2','9']], comment:{id: 'Gunakan jari manis kiri untuk menekan angka 2<br>Gunakan jari manis kanan untuk menekan angka 9', en:'Use the left ring finger to press the number 2<br>Use the right ring finger to press the number 9'}},
+	20: {cha:[['1','0']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan angka 1<br>Gunakan jari kelingking kanan untuk menekan angka 0', en:'Use the left pinky finger to press the number 1<br>Use the right pinky finger to press the number 0'}},
+
+	21: {cha:[['$','&']], comment:{id: 'Shift Kanan + 4 = $<br>Shift Kiri + 7 = &', en:'Right Shift + 4 = $<br>Left Shift + 7 = &'}},
+	22: {cha:[['%','^']], comment:{id: 'Shift Kanan + 5 = %<br>Shift Kiri + 6 = ^', en:'Right Shift + 5 = %<br>Left Shift + 6 = ^'}},
+	23: {cha:[['#','*']], comment:{id: 'Shift Kanan + 3 = #<br>Shift Kiri + 8 = *', en:'Right Shift + 3 = #<br>Left Shift + 8 = *'}},
+	24: {cha:[['@','(']], comment:{id: 'Shift Kanan + 2 = @<br>Shift Kiri + 9 = (', en:'Right Shift + 2 = @<br>Left Shift + 9 = ('}},
+	25: {cha:[['!',')']], comment:{id: 'Shift Kanan + 1 = !<br>Shift Kiri + 0 = )', en:'Right Shift + 1 = !<br>Left Shift + 0 = )'}},
+	26: {cha:[['\'','\'']], comment:{id: 'Gunakan jari kelingking kanan untuk menekan tanda petik (\') di samping kanan ;', en:'Use the right pinky finger to press the quotation mark (\') next to the right of ;'}},
+	27: {cha:[['<','>']], comment:{id: 'Shift Kiri + , &lt;<br>Shift Kiri + . = &gt', en:'Right Shift + , = &lt;<br>Left Shift + . = &gt'}},
 };
 
 const textTranslate = [
@@ -809,24 +986,15 @@ function instructionUpdate(){
 }
 
 function scrollToCursor() {
-    const textBox = document.getElementById('textBox');
-    const cursorElement = textBox.querySelector('.cursor-highlight');
-
-    if (cursorElement) {
-        const cursorRect = cursorElement.getBoundingClientRect();
-        const textBoxRect = textBox.getBoundingClientRect();
-
-        // Check if the cursor is out of view (above, below, left, or right of the visible area)
-        const isOutOfView =
-            cursorRect.top < textBoxRect.top || // Cursor is above the visible area ???
-            cursorRect.bottom > textBoxRect.bottom || // Cursor is below the visible area ???
-            cursorRect.left < textBoxRect.left || // Cursor is to the left of the visible area ???
-            cursorRect.right > textBoxRect.right; // Cursor is to the right of the visible area ???
-
-        if (isOutOfView) {
-            cursorElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-        }
-    }
+	const element = document.querySelector('.cursor-highlight'); // Mencari elemen dengan class cursor-highlight
+	if (element) {
+		// Menggunakan metode alternatif untuk scroll
+		const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+		window.scrollTo({
+			top: elementPosition,
+			behavior: 'smooth' // Animasi scroll
+		});
+	}
 }
 
 instructionUpdate()
