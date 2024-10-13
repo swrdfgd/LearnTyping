@@ -1,3 +1,7 @@
+uniqueTests = [];
+uniqueTestsTitles = {};
+
+
 //pencegah spasi
 document.addEventListener('keydown', function(event) {
     // Cek apakah tombol yang ditekan adalah spasi (key code 32)
@@ -925,7 +929,8 @@ function extraSpecialLevel(n){
 			}
 			break;
 		case '19':
-			if (Math.random() <1/2){
+			modeSpesial = Math.floor(Math.random()*4);
+			if (modeSpesial == 0){
 				let jamAcak = '2' + (2 + Math.floor(Math.random()*3));
 				let menitAcak = '' + (2 + Math.floor(Math.random()*4)) + (2 + Math.floor(Math.random()*8));
 				let titikKomaJam = jamAcak + ':' + menitAcak;
@@ -935,10 +940,16 @@ function extraSpecialLevel(n){
 				}
 				hasilExtra = titikKomaJam;
 			}
-			else{
+			if (modeSpesial == 1){
 				let angkaAcak = numberS[Math.floor(Math.random()*numberS.length)];
 				while (Math.random() < 1/2){angkaAcak += numberS[Math.floor(Math.random()*numberS.length)]}
 				hasilExtra = angkaAcak + ' ' + wordsGenShift(charLists);
+			}
+			if (modeSpesial == 2){
+				hasilExtra = numberS[Math.floor(Math.random()*numberS.length)];
+				while (Math.random() < 1/2){hasilExtra += numberS[Math.floor(Math.random()*numberS.length)]}
+				hasilExtra += '.' + numberS[Math.floor(Math.random()*numberS.length)];
+				while (Math.random() < 1/2){hasilExtra += numberS[Math.floor(Math.random()*numberS.length)]}
 			}
 			break;
 		case '20':
@@ -1021,6 +1032,7 @@ const levelData = {
     30: {cha:[['-','=']], comment:{id: 'Seperti biasa, kelingking kanan lagi untuk menekan tanda kurang (-) dan sama dengan (=) :)', en:'As usual, the right pinky again to press the minus (-) and equals (=) signs :)'}},
 	31: {cha:[['{','}']], comment:{id: 'Shift + [] = {}', en:'Shift + [] = {}'}},
 	32: {cha:[['\\','\\']], comment:{id: 'Kelingking kanan', en:'Right pinky'}},
+	'unique': {comment:{id: 'Kelingking kanan', en:'Right pinky'}},
 
 };
 
