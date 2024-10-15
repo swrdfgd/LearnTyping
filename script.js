@@ -100,6 +100,8 @@ function generateText(level) {
 			generatedText += kataShift + ' ';
 		}
 		
+		genWiki((charListsComplete + 'YUIOPHJKLNM;,./').split(''));
+		generatedText = generatedText.replace(/\s+/g, ' ').trim();
 		inisialisasi();
 		return
 	}
@@ -137,6 +139,8 @@ function generateText(level) {
 			generatedText += kataShift + ' ';
 		}
 		
+		genWiki((charListsComplete + 'QWERTASDFGZXCVB;,./').split(''));
+		generatedText = generatedText.replace(/\s+/g, ' ').trim();
 		inisialisasi();
 		return
 	}
@@ -178,6 +182,8 @@ function generateText(level) {
 			}
 		}
 		
+		genWiki((charListsComplete + 'QWERTASDFGZXCVBYUIOPHJKLNM;,./').split(''));
+		generatedText = generatedText.replace(/\s+/g, ' ').trim();
 		inisialisasi();
 		return
 	}
@@ -378,6 +384,13 @@ function generateText(level) {
 		}		
 	}
 	
+	genWiki(charLists);
+	
+	generatedText = generatedText.replace(/\s+/g, ' ').trim();
+	inisialisasi();
+}
+
+function genWiki(cList){
 	let bahasa = document.getElementById('language').value;
 	if (bahasa == 'en'){
 		if (randomWiki.length > 0){
@@ -386,7 +399,7 @@ function generateText(level) {
 				//introductionIteration = Math.floor(Math.random()*introductionIteration);
 				for (let i = 0; i < introductionIteration; i++) {
 					pilihanWiki = randomWiki[Math.floor(Math.random()*randomWiki.length)] + ' ' + randomWiki[Math.floor(Math.random()*randomWiki.length)] + ' ' + randomWiki[Math.floor(Math.random()*randomWiki.length)];
-					pilihanWiki = filterTextByCharList(pilihanWiki);
+					pilihanWiki = filterTextByCharList(pilihanWiki,cList);
 					pilihanWiki = pilihanWiki.substring(Math.random()*pilihanWiki.length,Math.random()*pilihanWiki.length);
 					while (pilihanWiki.length >= 2*(generatedText.length)){
 						pilihanWiki = pilihanWiki.substring(Math.random()*pilihanWiki.length,Math.random()*pilihanWiki.length);
@@ -402,7 +415,7 @@ function generateText(level) {
 				//introductionIteration = Math.floor(Math.random()*introductionIteration);
 				for (let i = 0; i < introductionIteration; i++) {
 					pilihanWiki = randomWikiID[Math.floor(Math.random()*randomWikiID.length)] + ' ' + randomWikiID[Math.floor(Math.random()*randomWikiID.length)] + ' ' + randomWikiID[Math.floor(Math.random()*randomWikiID.length)];
-					pilihanWiki = filterTextByCharList(pilihanWiki);
+					pilihanWiki = filterTextByCharList(pilihanWiki,cList);
 					pilihanWiki = pilihanWiki.substring(Math.random()*pilihanWiki.length,Math.random()*pilihanWiki.length);
 					while (pilihanWiki.length >= 2*(generatedText.length)){
 						pilihanWiki = pilihanWiki.substring(Math.random()*pilihanWiki.length,Math.random()*pilihanWiki.length);
@@ -411,9 +424,6 @@ function generateText(level) {
 				}
 		}
 	}
-	
-	generatedText = generatedText.replace(/\s+/g, ' ').trim();
-	inisialisasi();
 }
 
 function inisialisasi(){
@@ -987,6 +997,13 @@ function extraSpecialLevel(n){
 			else{
 			}
 			break;
+		case '24':
+			if (Math.random() < 1/2){
+				hasilExtra = generateRandomEmail()
+			}
+			else{
+			}
+			break;
 	}
 	
 	return hasilExtra
@@ -1032,6 +1049,7 @@ const levelData = {
     30: {cha:[['-','=']], comment:{id: 'Seperti biasa, kelingking kanan lagi untuk menekan tanda kurang (-) dan sama dengan (=) :)', en:'As usual, the right pinky again to press the minus (-) and equals (=) signs :)'}},
 	31: {cha:[['{','}']], comment:{id: 'Shift + [] = {}', en:'Shift + [] = {}'}},
 	32: {cha:[['\\','\\']], comment:{id: 'Kelingking kanan', en:'Right pinky'}},
+	33: {cha:[['|','|']], comment:{id: 'Shift + \\ = |', en:'Shift + \\ = |'}},
 	'unique': {comment:{id: 'Kelingking kanan', en:'Right pinky'}},
 
 };

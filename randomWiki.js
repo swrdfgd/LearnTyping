@@ -45,16 +45,16 @@ async function getRandomWikipediaContent(lang) {
 }
 
 // Fungsi untuk memfilter teks berdasarkan charLists dengan pengecekan huruf besar/kecil
-function filterTextByCharList(text) {
+function filterTextByCharList(text,cList=charLists) {
     return text.split('').map(char => {
 		if (char === ' '){return char}
         // Jika karakter ada di charLists, biarkan tetap
-        if (charLists.includes(char)) {
+        if (cList.includes(char)) {
             return char;
         }
         // Jika tidak ada, cek apakah versi huruf kecilnya ada
         const lowerChar = char.toLowerCase();
-        if (charLists.includes(lowerChar)) {
+        if (cList.includes(lowerChar)) {
             return lowerChar;  // Gantikan dengan versi huruf kecil
         }
         // Jika tidak ada, hilangkan karakter tersebut (kembalikan string kosong)
