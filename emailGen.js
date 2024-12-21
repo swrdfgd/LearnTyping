@@ -50,5 +50,3 @@ function generateRandomEmail() {
   return email;
 }
 
-// Contoh penggunaan
-console.log(generateRandomEmail());
