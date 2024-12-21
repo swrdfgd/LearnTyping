@@ -21,6 +21,7 @@ let testStarted = false; // To track if the test has started
 
 function startTest() {
     const level = document.getElementById('level').value;
+	document.getElementById('buttonContainer').innerHTML = '';
     generateText(level);
     document.getElementById('textBox').focus();
     testStarted = true;
@@ -504,7 +505,29 @@ function handleTyping(event) {
     }
 }
 
+completeShift = false;
+
+function nextLevel(sp='',lvl=document.getElementById('level').value){
+	if (isNaN(lvl)){
+		if (lvl == 'randomWords'){
+			if (completeShift == false){lvl = 'leftShift'}
+			else {lvl = '14'}
+			}
+		else if (lvl == 'leftShift'){lvl = 'rightShift'}
+		else if (lvl == 'rightShift'){lvl = 'shift'}
+		else {lvl = '14'}
+	}
+	else if (lvl == '13'){lvl = 'leftShift'}
+	else if (lvl == '35'){lvl = '35'}
+	else {lvl = '' + (Number(lvl) + 1)}
+	if (sp != ''){lvl = sp}
+	document.getElementById('level').value = lvl;
+	instructionUpdate();
+	startTest();
+}
+
 function endTest() {
+	levelSkarang = document.getElementById('level').value;
     isActive = false;
     testStarted = false;
     document.getElementById('textBox').removeEventListener('keydown', handleTyping);
@@ -512,20 +535,132 @@ function endTest() {
 
     const endTime = new Date().getTime();
     calculateResults(endTime);
+
+    // Menampilkan pesan selesai
+    let message;
+    if (document.getElementById('language').value == 'en') {
+        message = "Practice Completed!";
+    } else {
+        message = "Latihan Selesai!";
+    }
+    
+    document.getElementById('textBox').innerHTML += `<p style='color:green;'>${message}</p>`;
+
+    let feedbackMessage = '';
+    let showContinueButton = false;
+    let showRandomWordsButton = false;
+    let showRandomWords2Button = false;
+	let showStartOverButton = false;
+
+    // Menentukan umpan balik dan tombol berdasarkan nilai
+    if (wpm >= Math.random()*100 && accuracy >= Math.random()*100) {
+        feedbackMessage = document.getElementById('language').value == 'en' ?
+            "Outstanding performance! You're highly encouraged to continue to the next level!" :
+            "Kinerja luar biasa! Kamu sangat disarankan untuk melanjutkan ke level berikutnya!";
+        showContinueButton = true;
+		if (levelSkarang == "shift" || levelSkarang == "13"){
+			feedbackMessage += document.getElementById('language').value == 'en' ?
+            " You can also practice typing random words at the Random Words level." :
+            " Kamu bisa juga latihan mengetik kata acak di level Random Words";
+			showRandomWordsButton = true;
+			if (levelSkarang == "shift"){
+				completeShift = true;
+				showRandomWords2Button = true;
+			}
+		}
+		if (levelSkarang == "35"){
+			showContinueButton = false;
+			feedbackMessage = document.getElementById('language').value == 'en' ?
+				"This is the final level! Congratulations on reaching the end of this journey. If you'd like to try again to improve your score or strengthen your skills, feel free to start over and enjoy the challenge!" :
+				"Ini adalah level terakhir! Selamat telah mencapai akhir perjalanan ini. Jika kamu ingin mencoba lagi untuk memperbaiki skor atau memperkuat keterampilanmu, silakan mulai dari awal dan nikmati tantangannya!";
+			showStartOverButton = true;
+		}		
+		
+    } else if (wpm >= Math.random()*100 && accuracy >= Math.random()*100) {
+        feedbackMessage = document.getElementById('language').value == 'en' ?
+            "Good job! You can continue if you'd like, or retry if you feel there's room for improvement." :
+            "Kerja bagus! Kamu bisa melanjutkan jika mau, atau ulangi jika merasa ada yang perlu diperbaiki.";
+        showContinueButton = true; // Tetap tunjukkan tombol "Lanjut" jika nilai lumayan
+		if (levelSkarang == "shift" || levelSkarang == "13"){
+			feedbackMessage += document.getElementById('language').value == 'en' ?
+            " You can also practice typing random words at the Random Words level." :
+            " Kamu bisa juga latihan mengetik kata acak di level Random Words";
+			showRandomWordsButton = true;
+			if (levelSkarang == "shift"){
+				completeShift = true;
+				showRandomWords2Button = true;
+			}
+		}
+		if (levelSkarang == "35"){
+			showContinueButton = false;
+			feedbackMessage = document.getElementById('language').value == 'en' ?
+				"This is the final level! Don’t be discouraged if your WPM and accuracy still need improvement. Come on, try again, keep practicing, and see your own progress!" :
+				"Ini adalah level terakhir! Jangan berkecil hati kalau WPM dan akurasi kamu masih perlu ditingkatkan. Yuk, coba lagi, terus latihan, dan lihat kemajuan kamu sendiri!";
+		}		
+
+    } else {
+        feedbackMessage = document.getElementById('language').value == 'en' ?
+            "Keep practicing! Don't be discouraged—retry to improve your skills." :
+            "Terus berlatih! Jangan putus asa—ulang untuk meningkatkan keterampilanmu.";
+    }
+
+    // Menampilkan umpan balik
+    document.getElementById('textBox').innerHTML += `<p>${feedbackMessage}</p>`;
+
+	// Menambahkan tombol berdasarkan nilai
+	if (showContinueButton) {
+		const continueButtonText = document.getElementById('language').value == 'en' ? "Continue" : "Lanjut";
+		const continueButtonHTML = `
+			<button id="continueButton" onclick="nextLevel()" class="styled-button">${continueButtonText}</button>
+		`;
+		
+		document.getElementById('buttonContainer').innerHTML += continueButtonHTML;
+		// Menambahkan event listener untuk tombol "Lanjut"
+		/*document.getElementById('continueButton').addEventListener('click', function() {
+			nextLevel();
+		});	*/
+		
+	}
+
+	if (showRandomWordsButton) {
+		const randomWordsButtonText = "Random Words";
+		const randomWordsButtonHTML = `
+			<button onclick="nextLevel('randomWords');" class="styled-button randomWordsButton">${randomWordsButtonText}</button>
+		`;
+		
+		document.getElementById('buttonContainer').innerHTML += randomWordsButtonHTML;
+		
+	}
+
+	if (showRandomWords2Button) {
+		const randomWords2ButtonText = "Random Words 2";
+		const randomWords2ButtonHTML = `
+			<button onclick="nextLevel('randomWords2')" class="styled-button randomWordsButton">${randomWords2ButtonText}</button>
+		`;
+		
+		document.getElementById('buttonContainer').innerHTML += randomWords2ButtonHTML;
+	}
 	
-	if (document.getElementById('language').value == 'en'){
-		document.getElementById('textBox').innerHTML += "<p style='color:green;'>Practice Completed!</p>";
-	}
-	else {
-		document.getElementById('textBox').innerHTML += "<p style='color:green;'>Latihan Selesai!</p>";
-	}
+
+
+	// Menambahkan tombol "Ulangi" yang selalu muncul
+	const retryButtonText = document.getElementById('language').value == 'en' ? "Retry" : "Ulangi";
+	const retryButtonHTML = `<button id="retryButton" class="styled-button">${retryButtonText}</button>`;
+	document.getElementById('buttonContainer').innerHTML += retryButtonHTML;
+
+	// Menambahkan event listener untuk tombol "Ulangi"
+	document.getElementById('retryButton').addEventListener('click', function() {
+		startTest(); // Fungsi untuk memulai kembali tes
+	});
+
+
 }
 
 function calculateResults(endTime) {
     const timeTaken = (endTime - startTime) / 1000; // in seconds
     const wordsTyped = typedText.split(' ').length;
-    const wpm = (wordsTyped / timeTaken) * 60;
-    const accuracy = calculateAccuracy();
+    wpm = (wordsTyped / timeTaken) * 60;
+    accuracy = calculateAccuracy();
 
     document.getElementById('wpm').textContent = Math.round(wpm);
     document.getElementById('accuracy').textContent = accuracy + "%";
@@ -714,6 +849,12 @@ function wordsGen(charLists){
 	let pilihanKata = '';
 	if (document.getElementById('language').value == 'en'){
 		pilihanKata = englishWordsFreq[Math.floor(Math.random()*englishWordsFreq.length)];
+		if (Math.random() < 1/2){
+			pilihanProposisi = prepositions[Math.floor(Math.random()*prepositions.length)]
+			if (isWordValid(pilihanProposisi,charLists)){
+				pilihanKata = pilihanProposisi;
+			}
+		}
 	}
 	else {
 		pilihanKata = kataIndo[Math.floor(Math.random()*kataIndo.length)];
@@ -963,7 +1104,8 @@ function extraSpecialLevel(n){
 			}
 			break;
 		case '20':
-			if (Math.random() <1/2){
+			modeSpesial = Math.floor(Math.random()*3);
+			if (modeSpesial == 0){
 				let jamAcak = Math.floor(Math.random()*24);
 				if (jamAcak < 10){jamAcak = '0' + jamAcak}
 				let menitAcak = Math.floor(Math.random()*60);
@@ -976,14 +1118,28 @@ function extraSpecialLevel(n){
 				}
 				hasilExtra = titikKomaJam;
 			}
-			else{
+			if (modeSpesial == 1){
 				let angkaAcak = numberS[Math.floor(Math.random()*numberS.length)];
 				while (Math.random() < 1/2){angkaAcak += numberS[Math.floor(Math.random()*numberS.length)]}
 				hasilExtra = angkaAcak + ' ' + wordsGenShift(charLists);
 			}
+			if (modeSpesial == 2){
+				hasilExtra = generateVariableName();
+			}
+			break;
+		case '22':
+			modeSpesial = Math.floor(Math.random()*3);
+			if (modeSpesial == 0){
+				let angkaAcak = numberS[Math.floor(Math.random()*numberS.length)];
+				while (Math.random() < 1/2){angkaAcak += numberS[Math.floor(Math.random()*numberS.length)]}
+				hasilExtra = angkaAcak + '%';
+			}
+			if (modeSpesial == 1){
+			}
 			break;
 		case '23':
-			if (Math.random() < 1/2){
+			modeSpesial = Math.floor(Math.random()*3);
+			if (modeSpesial == 0){
 				kataBaru = wordsGen(charLists)
 				modeShift = Math.floor(Math.random()*3);
 				if (modeShift == 0){
@@ -994,7 +1150,19 @@ function extraSpecialLevel(n){
 				}
 				hasilExtra = '#' + kataBaru;
 			}
-			else{
+			if (modeSpesial == 1){
+				kataBaru = wordsGen(charLists)
+				modeShift = Math.floor(Math.random()*3);
+				if (modeShift == 0){
+					kataBaru = kataBaru.toUpperCase();
+				}
+				if (modeShift == 1){
+					kataBaru = kataBaru[0].toUpperCase() + kataBaru.substring(1);
+				}
+				if (Math.random() < 1/2){
+					hasilExtra = kataBaru + '*';
+				}
+				else{hasilExtra = '*' + kataBaru}
 			}
 			break;
 		case '24':
@@ -1004,11 +1172,34 @@ function extraSpecialLevel(n){
 			else{
 			}
 			break;
+		case '28':
+			modeSpesial = Math.floor(Math.random()*2);
+			if (modeSpesial == 0){
+				let angka1 = Math.floor(Math.random()*10);
+				while (Math.random() < 1/2){
+					angka1 = angka1*10 + Math.floor(Math.random()*10)
+				}
+				let angka2 = Math.floor(Math.random()*10);
+				while (Math.random() < 1/2){
+					angka2 = angka2*10 + Math.floor(Math.random()*10)
+				}
+				if (angka1 < angka2){
+					hasilExtra = angka1 + '<' + angka2;
+				}
+				if (angka1 > angka2){
+					hasilExtra = angka1 + '>' + angka2;
+				}
+			}
+			if (modeSpesial == 1){
+			}
+			break;
 	}
 	
 	return hasilExtra
 }
 
+const randomKanan = daftarHurufKanan[Math.floor(Math.random()*daftarHurufKanan.length)];
+const randomKiri = daftarHurufKiri[Math.floor(Math.random()*daftarHurufKiri.length)];
 const levelData = {
 	0: {cha: [], comment:{id: '', en: ''}},
     1: {cha:[['a','s'],['l',';']], comment:{id: '<b>Letakkan jari-jari ke baris rumah</b><br>Perhatikan bahwa ada tonjolan kecil di huruf f dan j untuk membantu menempatkan jari dengan benar di baris rumah.<br>Letakkan jari kelingking kiri di huruf a, jari manis kiri di huruf s, jari tengah kiri di huruf d, dan jari telunjuk kiri di huruf f.<br>Letakkan jari telunjuk kanan di huruf j, jari tengah kanan di huruf k, jari manis kanan di huruf l, dan jari kelingking kanan di tanda titik koma (;).<br>Gunakan jari kelingking kiri untuk menekan huruf a, jari manis kiri untuk menekan huruf s, jari manis kanan untuk menekan huruf l, dan jari kelingking kanan untuk menekan tanda titik koma (;).<br>Tekan spasi dengan ibu jari/jempol', en: '<b>Place your fingers on the home row</b><br>Note that there are small bumps on the f and j keys to help you position your fingers correctly on the home row.<br>Place your left pinky finger on the letter a, your left ring finger on the letter s, your left middle finger on the letter d, and your left index finger on the letter f.<br>Place your right index finger on the letter j, your right middle finger on the letter k, your right ring finger on the letter l, and your right pinky finger on the semicolon (;).<br>Use your left pinky finger to press the letter a, your left ring finger to press the letter s, your right ring finger to press the letter l, and your right pinky finger to press the semicolon (;).<br>Press the spacebar with your thumb'}},
@@ -1025,8 +1216,8 @@ const levelData = {
 	12: {cha:[['q','p']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan huruf q<br>Gunakan jari kelingking kanan untuk menekan huruf p', en:'Use the left pinky finger to press the letter q<br>Use the right pinky finger to press the letter p'}},
 	13: {cha:[['z','/']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan huruf z<br>Gunakan jari kelingking kanan untuk menekan tanda garis miring (/)', en:'Use the left pinky finger to press the letter z<br>Use the right pinky finger to press the slash (/)'}},
 	"randomWords": {comment: {id: 'Latihan mengetik kata-kata acak',en: 'Practicing typing random words'}},
-	"leftShift": {comment: {id: '<b>Shift Kiri</b><br>Tekan tombol Shift kiri dengan kelingking kiri untuk mengetik huruf besar dari huruf yang berada di bagian kanan keyboard. Misalnya, jika Anda menekan Shift kiri bersamaan dengan huruf l, maka akan menghasilkan huruf L yang besar.', en: '<b>Left Shift</b><br>Press the left Shift key with the left pinky finger to type uppercase letters of the characters located to the right side of the keyboard. For example, pressing the left Shift key along with the letter l will produce the uppercase letter L.'}},
-	"rightShift": {comment: {id: '<b>Shift Kanan</b><br>Tekan tombol Shift kanan dengan kelingking kanan untuk mengetik huruf besar dari huruf yang berada di bagian kiri keyboard. Misalnya, jika Anda menekan Shift kanan bersamaan dengan huruf a, maka akan menghasilkan huruf A yang besar.',en: '<b>Right Shift</b><br>Press the right Shift key with the right pinky finger to type uppercase letters of the characters located to the left side of the keyboard. For example, pressing the right Shift key along with the letter a will produce the uppercase letter A.'}},
+	"leftShift": {comment: {id: '<b>Shift Kiri</b><br>Tekan tombol Shift kiri dengan kelingking kiri untuk mengetik huruf besar dari huruf yang berada di bagian kanan keyboard. Misalnya, jika Anda menekan Shift kiri bersamaan dengan huruf '+randomKanan+', maka akan menghasilkan huruf '+randomKanan.toUpperCase()+' yang besar.', en: '<b>Left Shift</b><br>Press the left Shift key with the left pinky finger to type uppercase letters of the characters located to the right side of the keyboard. For example, pressing the left Shift key along with the letter '+randomKanan+' will produce the uppercase letter '+randomKanan.toUpperCase()+'.'}},
+	"rightShift": {comment: {id: '<b>Shift Kanan</b><br>Tekan tombol Shift kanan dengan kelingking kanan untuk mengetik huruf besar dari huruf yang berada di bagian kiri keyboard. Misalnya, jika Anda menekan Shift kanan bersamaan dengan huruf '+randomKiri+', maka akan menghasilkan huruf '+randomKiri.toUpperCase()+' yang besar.',en: '<b>Right Shift</b><br>Press the right Shift key with the right pinky finger to type uppercase letters of the characters located to the left side of the keyboard. For example, pressing the right Shift key along with the letter '+randomKiri+' will produce the uppercase letter '+randomKiri.toUpperCase()+'.'}},
 	"shift": {comment: {id: 'Latihan menggunakan kedua tombol shift',en: 'Practising using both shift keys'}},
 	"randomWords2": {comment: {id: 'Latihan mengetik kata-kata acak dengan huruf kapital',en: 'Practicing typing random words with capital letters'}},
 	14: {cha:[['?','?']], comment:{id: 'Shift Kiri + / = ?', en:'Left Shift + / = ?'}},
@@ -1050,6 +1241,8 @@ const levelData = {
 	31: {cha:[['{','}']], comment:{id: 'Shift + [] = {}', en:'Shift + [] = {}'}},
 	32: {cha:[['\\','\\']], comment:{id: 'Kelingking kanan', en:'Right pinky'}},
 	33: {cha:[['|','|']], comment:{id: 'Shift + \\ = |', en:'Shift + \\ = |'}},
+	34: {cha:[['`','`']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan simbol ` yang ada di samping kiri 1', en:'Use your left pinky finger to press the ` key located to the left of the number 1'}},
+	35: {cha:[['~','~']], comment:{id: 'Shift + ` = ~', en:'Shift + ` = ~'}},
 	'unique': {comment:{id: 'Kelingking kanan', en:'Right pinky'}},
 
 };

@@ -41,7 +41,7 @@ button {
     display: block;
     width: 100%;
     padding: 15px;
-    margin-bottom: 30px;
+    /*margin-bottom: 30px;*/
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -49,6 +49,64 @@ button {
     font-size: 20px;
     cursor: pointer;
 }
+
+.button-container {
+    display: flex; /* Menggunakan flexbox untuk menyusun tombol */
+    justify-content: center; /* Mengatur tombol agar terpusat */
+    margin-top: 10px; /* Jarak atas dari konten sebelumnya */
+}
+
+.styled-button {
+    font-size: 14px;
+    padding: 12px 20px;
+    width: 120px;
+    height: 45px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 5px; /* Jarak antara tombol */
+}
+
+#continueButton {
+    background-color: #4CAF50; /* Hijau untuk tombol Lanjut */
+}
+
+#retryButton {
+    background-color: #f44336; /* Merah untuk tombol Ulangi */
+}
+
+.randomWordsButton {
+    background-color: #5834eb; /* Biru untuk Random Words */
+}
+
+/* Efek hover untuk tombol */
+#continueButton:hover {
+    background-color: #45a049; /* Warna saat hover untuk tombol Lanjut */
+}
+
+#retryButton:hover {
+    background-color: #e53935; /* Warna saat hover untuk tombol Ulangi */
+}
+
+#continueButton {
+    background-color: #4CAF50; /* Hijau untuk tombol Lanjut */
+}
+
+#retryButton {
+    background-color: #f44336; /* Merah untuk tombol Ulangi */
+}
+
+/* Efek hover untuk tombol */
+#continueButton:hover {
+    background-color: #45a049; /* Warna saat hover untuk tombol Lanjut */
+}
+
+#retryButton:hover {
+    background-color: #e53935; /* Warna saat hover untuk tombol Ulangi */
+}
+
 
 button:hover {
     background-color: #0056b3;
