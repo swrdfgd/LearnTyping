@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn Typing</title>
     <link rel="stylesheet" href="styles.css">
+	
 </head>
 <body>
     <div class="container" id="tempatContainer">
@@ -56,7 +57,11 @@
 			<option value="33">Level 35 (|)</option>
 			<option value="34">Level 36 (`)</option>
 			<option value="35">Level 37 (~)</option>
+			<option value="unique">Unique Test</option>
         </select>
+		<div id="uniqueTests">
+		</div>
+
         <p id="instructions">Please select a level and press "Start" to begin the test.</p>
         <button id="startButton" onclick="addSentenceToArray();startTest()">Start</button>
 
@@ -73,6 +78,23 @@
 	<script src="varNameGen.js"></script>
 	<script src="emailGen.js"></script>
     <script src="script.js"></script>
+	
 	<script src="randomWiki.js"></script>
+	<script src="UniqueTests/Test1.js"></script>
+	<script src="UniqueTests/Test2.js"></script>
+	<script src="UniqueTests/Test3.js"></script>
+	<script src="UniqueTests/Test4.js"></script>
+	<script src="UniqueTests/Test5.js"></script>
+	<script src="UniqueTests/Test6.js"></script>
+	<script src="UniqueTests/Test7.js"></script>
+	<script src="UniqueTests/Test8.js"></script>
+	<script>
+		var uniqueTestHTML = '<select onclick="instructionUpdate()" id="levelUnique">'
+		for (let i = 0; i < uniqueTests.length; i++){
+			uniqueTestHTML += `<option value="${uniqueTests[i]}">${uniqueTestsTitles[uniqueTests[i]]}</option>`;
+		}
+		uniqueTestHTML += '</select>'
+		document.getElementById('uniqueTests').innerHTML = uniqueTestHTML;
+	</script>
 </body>
 </html>

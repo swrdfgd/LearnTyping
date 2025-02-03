@@ -40,6 +40,13 @@ function generateText(level) {
     typedText = "";
 	let introductionIteration;
 	
+	if (level == "unique"){
+		generatedText += eval('genTests'+document.getElementById('levelUnique').value+'();');
+		generatedText = generatedText.replace(/\s+/g, ' ').trim();
+		inisialisasi();
+		return
+	}
+	
 	if (level == "randomWords"){
 		introductionIteration = 30;
 		while (Math.random() < 1/2){introductionIteration++}
@@ -521,6 +528,7 @@ function nextLevel(sp='',lvl=document.getElementById('level').value){
 	else if (lvl == '35'){lvl = '35'}
 	else {lvl = '' + (Number(lvl) + 1)}
 	if (sp != ''){lvl = sp}
+	if (lvl == 'unique'){document.getElementById('levelUnique').value = uniqueTests[Math.floor(Math.random()*uniqueTests.length)];}
 	document.getElementById('level').value = lvl;
 	instructionUpdate();
 	startTest();
@@ -551,6 +559,7 @@ function endTest() {
     let showRandomWordsButton = false;
     let showRandomWords2Button = false;
 	let showStartOverButton = false;
+	let showUniqueTestButton = false;
 
     // Menentukan umpan balik dan tombol berdasarkan nilai
     if (wpm >= Math.random()*100 && accuracy >= Math.random()*100) {
@@ -571,10 +580,17 @@ function endTest() {
 		if (levelSkarang == "35"){
 			showContinueButton = false;
 			feedbackMessage = document.getElementById('language').value == 'en' ?
-				"This is the final level! Congratulations on reaching the end of this journey. If you'd like to try again to improve your score or strengthen your skills, feel free to start over and enjoy the challenge!" :
-				"Ini adalah level terakhir! Selamat telah mencapai akhir perjalanan ini. Jika kamu ingin mencoba lagi untuk memperbaiki skor atau memperkuat keterampilanmu, silakan mulai dari awal dan nikmati tantangannya!";
-			showStartOverButton = true;
-		}		
+				"This is the final level! Congratulations on reaching the end of this journey. You can now try the Unique Test for more advanced typing challenges!" :
+				"Ini adalah level terakhir! Selamat telah mencapai akhir perjalanan ini. Sekarang kamu bisa mencoba Unique Test untuk tantangan mengetik yang lebih lanjut!";
+			showUniqueTestButton = true;
+		}	
+		if (levelSkarang == "unique") {
+			showContinueButton = false;
+			feedbackMessage = document.getElementById('language').value == 'en' ?
+				"Excellent work! You’ve completed the Unique Test! Feel free to try another random Unique Test challenge." :
+				"Kerja luar biasa! Kamu telah menyelesaikan Unique Test! Silakan coba tantangan Unique Test acak lagi.";
+			showUniqueTestButton = true;
+		}  
 		
     } else if (wpm >= Math.random()*100 && accuracy >= Math.random()*100) {
         feedbackMessage = document.getElementById('language').value == 'en' ?
@@ -594,10 +610,17 @@ function endTest() {
 		if (levelSkarang == "35"){
 			showContinueButton = false;
 			feedbackMessage = document.getElementById('language').value == 'en' ?
-				"This is the final level! Don’t be discouraged if your WPM and accuracy still need improvement. Come on, try again, keep practicing, and see your own progress!" :
-				"Ini adalah level terakhir! Jangan berkecil hati kalau WPM dan akurasi kamu masih perlu ditingkatkan. Yuk, coba lagi, terus latihan, dan lihat kemajuan kamu sendiri!";
-		}		
-
+				"This is the final level! Don’t be discouraged if your WPM and accuracy still need improvement. You can now try the Unique Test for additional challenges!" :
+				"Ini adalah level terakhir! Jangan berkecil hati kalau WPM dan akurasi kamu masih perlu ditingkatkan. Sekarang kamu bisa mencoba Unique Test untuk tantangan tambahan!";
+				showUniqueTestButton = true;
+		}
+		if (levelSkarang == "unique") {
+			showContinueButton = false;
+			feedbackMessage = document.getElementById('language').value == 'en' ?
+            "Nice work! You’ve completed the Unique Test! Why not challenge yourself with another random Unique Test?" :
+            "Kerja bagus! Kamu telah menyelesaikan Unique Test! Kenapa tidak menantang diri dengan Unique Test acak lagi?";
+        showUniqueTestButton = true;
+		}        
     } else {
         feedbackMessage = document.getElementById('language').value == 'en' ?
             "Keep practicing! Don't be discouraged—retry to improve your skills." :
@@ -639,6 +662,15 @@ function endTest() {
 		`;
 		
 		document.getElementById('buttonContainer').innerHTML += randomWords2ButtonHTML;
+	}
+	
+	if (showUniqueTestButton) {
+		const randomUniqueButtonText = "Random Unique Test";
+		const randomUniqueButtonHTML = `
+			<button onclick="nextLevel('unique')" class="styled-button randomWordsButton">${randomUniqueButtonText}</button>
+		`;
+		
+		document.getElementById('buttonContainer').innerHTML += randomUniqueButtonHTML;
 	}
 	
 
@@ -1243,7 +1275,7 @@ const levelData = {
 	33: {cha:[['|','|']], comment:{id: 'Shift + \\ = |', en:'Shift + \\ = |'}},
 	34: {cha:[['`','`']], comment:{id: 'Gunakan jari kelingking kiri untuk menekan simbol ` yang ada di samping kiri 1', en:'Use your left pinky finger to press the ` key located to the left of the number 1'}},
 	35: {cha:[['~','~']], comment:{id: 'Shift + ` = ~', en:'Shift + ` = ~'}},
-	'unique': {comment:{id: 'Kelingking kanan', en:'Right pinky'}},
+	'unique': {comment:{id: 'Latihan mengetik berbagai teks unik', en:'Typing practice with various unique texts'}},
 
 };
 
@@ -1267,6 +1299,12 @@ function changeLang(){
 function instructionUpdate(){
 	let bahasa = document.getElementById('language').value;
 	document.getElementById('instructions').innerHTML = levelData[document.getElementById('level').value].comment[bahasa];
+	if (document.getElementById('level').value == 'unique'){
+		document.getElementById("uniqueTests").style.display = "initial";
+	}
+	else{
+		document.getElementById("uniqueTests").style.display = "none";
+	}
 }
 
 function scrollToCursor() {
