@@ -43,6 +43,8 @@ chantWords = [
 'up',
 'warrior',
 'you',
+'your',
+'yourself',
 'balance',
 'bellman',
 'big',
@@ -212,15 +214,64 @@ chantWords = [
 'we',
 'wait',
 'you',
+'%poss',
+'preacher is not in the garden',
+'the preacher is not in the garden',
+"preacher isn't in the garden",
+"the preacher isn't in the garden",
+'I cannot find the preacher',
+'I cannot find preacher',
+'I can not find preacher',
+'I can not find the preacher',
+"I can't find preacher",
+"I can't find the preacher",
+"plants are dying",
+"I don't like plants dying",
 ]
+
+chantsWordsSubject2 = ['you'];
+chantsWordsPossesive = ['your'];
+chantsWordsSubject3 = ['door'];
+chantsWordsSubject3p = ['doors'];
+chantsWordsObject2 = ['you'];
+chantsWordsObject3 = ['door'];
+chantsWordsObject3p = ['doors'];
+chantsWordsObject3Collect = chantsWordsObject3.concat(chantsWordsObject3p);
+chantsWordsObjectCollect = chantsWordsObject2.concat(chantsWordsObject3Collect)
+
+
+function advanceTest2(input){
+	switch(input) {
+	case '%poss':
+    return chantsWordsPossesive[Math.floor(Math.random()*chantsWordsPossesive.length)] + ' ' + chantsWordsObject3Collect[Math.floor(Math.random()*chantsWordsObject3Collect.length)]
+    break;
+	case 'dummy':
+    break;
+	}
+}
 
 function genTests2(){
  var hasil = chantWords[Math.floor(Math.random()*chantWords.length)];
+ if (hasil[0] == '%'){
+	 hasil = advanceTest2(hasil)
+ }
  var kataBaru = ''
  for (let i = 1; i < 50; i++){
 	kataBaru = chantWords[Math.floor(Math.random()*chantWords.length)];
+	if (kataBaru[0] == '%'){
+	 kataBaru = advanceTest2(kataBaru)
+	}
 	if (Math.random() < 1/10){
 		kataBaru = kataBaru.charAt(0).toUpperCase() + kataBaru.slice(1);
+	}
+	if (Math.random() < 1/5){
+		kataBaru += ',';
+	}
+	else if (Math.random() < 1/10){
+		kataBaru += '.';
+	}
+	else if (Math.random() < 1/10){
+		kataBaru += '?';
 	}
 	hasil += ' ' + kataBaru;
  }
