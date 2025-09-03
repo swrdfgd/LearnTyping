@@ -21,6 +21,7 @@ let testStarted = false; // To track if the test has started
 
 function startTest() {
     const level = document.getElementById('level').value;
+	if (level == 'emoji'){window.open('https://swrdfgd.github.io/EmojiTyping/', '_blank'); return}
 	document.getElementById('buttonContainer').innerHTML = '';
     generateText(level);
     document.getElementById('textBox').focus();
