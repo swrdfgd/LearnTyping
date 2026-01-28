@@ -1268,7 +1268,7 @@ const levelData = {
 	25: {cha:[['!',')']], comment:{id: 'Shift Kanan + 1 = !<br>Shift Kiri + 0 = )', en:'Right Shift + 1 = !<br>Left Shift + 0 = )'}},
 	26: {cha:[['\'','\'']], comment:{id: 'Gunakan jari kelingking kanan untuk menekan tanda petik (\') di samping kanan ;', en:'Use the right pinky finger to press the quotation mark (\') next to the right of ;'}},
 	27: {cha:[['"','"']], comment:{id: 'Shift Kiri + \' = "', en:'Left Shift + \' = "'}},
-	28: {cha:[['<','>']], comment:{id: 'Shift Kiri + , = &lt;<br>Shift Kiri + . = &gt', en:'Right Shift + , = &lt;<br>Left Shift + . = &gt'}},
+	28: {cha:[['<','>']], comment:{id: 'Shift Kiri + , = &lt;<br>Shift Kiri + . = &gt', en:'Left Shift + , = &lt;<br>Left Shift + . = &gt'}},
 	29: {cha:[['[',']']], comment:{id: 'Gunakan jari kelingking kanan untuk menekan simbol [<br>Gunakan jari kelingking kanan sedikit lebih jauh untuk menekan simbol ]', en:'Use your right pinky finger to press the symbol [<br>Use your right pinky finger slightly further to press the symbol ]'}},
     30: {cha:[['-','=']], comment:{id: 'Seperti biasa, kelingking kanan lagi untuk menekan tanda kurang (-) dan sama dengan (=) :)', en:'As usual, the right pinky again to press the minus (-) and equals (=) signs :)'}},
 	31: {cha:[['{','}']], comment:{id: 'Shift + [] = {}', en:'Shift + [] = {}'}},
