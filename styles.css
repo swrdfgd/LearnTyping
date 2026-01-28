@@ -166,3 +166,64 @@ button:hover {
         font-size: 14px;
     }
 }
+.top-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+/* Kianko Land button */
+.kianko-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.kianko-btn:hover {
+    background-color: #555;
+}
+
+/* Donate (lanjutan dari sebelumnya) */
+.donate-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.donate-btn {
+    padding: 8px 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 14px;
+}
+
+.donate-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    border-radius: 6px;
+    z-index: 10;
+}
+
+.donate-menu a {
+    display: block;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: #333;
+}
+
+.donate-menu a:hover {
+    background-color: #f2f2f2;
+}
+
+.donate-dropdown:hover .donate-menu {
+    display: block;
+}
