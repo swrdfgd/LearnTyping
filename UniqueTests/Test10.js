@@ -8,6 +8,7 @@ var loremipsum = [
 function genTests10(){
 
  var hasil = loremipsum[0];
+ hasil += ' ' + loremipsum[Math.floor(Math.random()*loremipsum.length)];
  while (Math.random() < 0.5){
 	hasil += ' ' + loremipsum[Math.floor(Math.random()*loremipsum.length)];
  }
