@@ -374,7 +374,13 @@ function generateText(level) {
 		if (level >= 16 && Math.random() < 1/level){ 
 			kataBaru = numberS[Math.floor(Math.random()*numberS.length)] + ' ' + kataBaru;
 		}
-		if (level >= 15 && Math.random() < 1/20){ 
+		if (level >= 33 && Math.random() < 1/50){ 
+			generatedText += kataBaru + ' || ';
+		}
+		else if (level >= 33 && Math.random() < 1/20){ 
+			generatedText += kataBaru + ' | ';
+		}
+		else if (level >= 15 && Math.random() < 1/20){ 
 			generatedText += kataBaru + ': ';
 		}
 		else if (level >= 14 && Math.random() < 1/10){ 
