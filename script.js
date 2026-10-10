@@ -34,6 +34,7 @@ function startTest() {
 const daftarHurufKanan = 'yuiophjklnm';
 const daftarHurufKiri = 'qwertasdfgzxcvb'
 const charListsComplete = 'qwertyuiopasdfghjkl;zxcvbnm,./'.split('');
+const daftarHurufKapital = 'QWERTYUIOPASDFGHJKLZXCVBNM';
 
 function generateText(level) {
     const characters = levelData[level];
@@ -1221,6 +1222,19 @@ function extraSpecialLevel(n){
 				}
 				if (angka1 > angka2){
 					hasilExtra = angka1 + '>' + angka2;
+				}
+			}
+			if (modeSpesial == 1){
+			}
+			break;
+		case '33':
+			modeSpesial = Math.floor(Math.random()*2);
+			if (modeSpesial == 0){
+				for (let i = 0; i < 2; i++) {
+					let h1 = daftarHurufKapital[Math.floor(Math.random() * 26)], h2;
+					do { h2 = daftarHurufKapital[Math.floor(Math.random() * 26)]; } while (h1 === h2);
+					
+					hasilExtra += h1 + h2 + (i === 0 ? "||" : "");
 				}
 			}
 			if (modeSpesial == 1){
