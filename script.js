@@ -319,6 +319,8 @@ function generateText(level) {
 		}
 	}
 	
+	generatedText += randomQuote(charLists) + ' ';
+	
 	while (Math.random() < 1/2){
 		introductionIteration = 5;
 		while (Math.random() < 1/2){introductionIteration++}
@@ -910,6 +912,19 @@ function wordsGen(charLists){
 		pilihanKata2 = pilihanKata2.toLowerCase();
 		pilihanKata = pilihanKata + '/' + pilihanKata2;
 	}
+	if (isWordValid(pilihanKata,charLists)){return pilihanKata};
+	return remindCharacter(charLists);
+}
+
+function randomQuote(charLists){
+	let pilihanKata = '';
+	if (document.getElementById('language').value == 'en'){
+		pilihanKata = kutipanEn[Math.floor(Math.random()*kutipanEn.length)];
+	}
+	else {
+		pilihanKata = kutipanId[Math.floor(Math.random()*kutipanId.length)];
+	}
+	pilihanKata = pilihanKata.toLowerCase();
 	if (isWordValid(pilihanKata,charLists)){return pilihanKata};
 	return remindCharacter(charLists);
 }
